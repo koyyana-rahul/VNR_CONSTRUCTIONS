@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" fill="none" role="img"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#071727"/><stop offset="1" stop-color="#030A12"/>
+  </linearGradient></defs><rect width="1200" height="900" fill="url(#g)"/><rect x="216" y="144" width="768" height="612"
+    stroke="#D9AD456B" stroke-width="3" fill="none"/><rect x="226" y="154" width="748" height="592"
+    stroke="#D9AD45" stroke-width="1" fill="none" opacity="0.6"/><line x1="216" y1="535.46" x2="984" y2="535.46"
+        stroke="#D9AD45" stroke-width="1.8" opacity="0.65"/><line x1="216" y1="580.86" x2="984" y2="580.86"
+        stroke="#D9AD45" stroke-width="1.8" opacity="0.65"/><line x1="489.55" y1="144" x2="489.55" y2="756"
+        stroke="#D9AD45" stroke-width="1.8" opacity="0.65"/><path d="M 523.2 450 L 523.2 506" stroke="#FFE3A0" stroke-width="3"/><path d="M 523.2 506 A 56 56 0 0 0 579.2 450"
+    stroke="#D9AD45" stroke-width="1.4" opacity="0.55" stroke-dasharray="6 6"/><line x1="216" y1="798" x2="984" y2="798" stroke="#AAB6BF" stroke-width="1" opacity="0.5"/><line x1="216" y1="791" x2="216" y2="805" stroke="#AAB6BF" stroke-width="1" opacity="0.5"/><line x1="600" y1="791" x2="600" y2="805" stroke="#AAB6BF" stroke-width="1" opacity="0.5"/><line x1="984" y1="791" x2="984" y2="805" stroke="#AAB6BF" stroke-width="1" opacity="0.5"/></svg>

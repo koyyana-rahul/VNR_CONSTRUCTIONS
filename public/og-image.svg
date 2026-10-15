@@ -1,0 +1,51 @@
+<!--
+  Open Graph card.
+
+  NOTE: Most social platforms (Facebook, LinkedIn, X, WhatsApp) do NOT render
+  SVG og:image files — they require PNG or JPEG at least 1200x630.
+
+  Export this file to public/og-image.png at 1200x630 and update
+  company.seo.defaultOgImage + the <meta property="og:image"> tag in
+  index.html before launch. See README "SEO checklist".
+
+  Designed to match the favicon so the brand mark is consistent in the feed.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#171717" />
+      <stop offset="1" stop-color="#101010" />
+    </linearGradient>
+    <linearGradient id="rule" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A98B4F" />
+      <stop offset="50%" stop-color="#D0B477" />
+      <stop offset="100%" stop-color="#A98B4F" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+
+  <!-- Faint architectural grid -->
+  <g stroke="#FFFFFF" stroke-width="1" opacity="0.05">
+    <line x1="0" y1="150" x2="1200" y2="150" />
+    <line x1="0" y1="315" x2="1200" y2="315" />
+    <line x1="0" y1="480" x2="1200" y2="480" />
+    <line x1="200" y1="0" x2="200" y2="630" />
+    <line x1="600" y1="0" x2="600" y2="630" />
+    <line x1="1000" y1="0" x2="1000" y2="630" />
+  </g>
+
+  <!-- Mark -->
+  <path d="M104 196 L156 300 L208 196" stroke="#D0B477" stroke-width="14" fill="none" stroke-linecap="square" />
+  <path d="M104 330 H208" stroke="url(#rule)" stroke-width="9" />
+
+  <!-- Wordmark -->
+  <text x="250" y="286" font-family="Manrope, 'Segoe UI', system-ui, sans-serif"
+        font-size="96" font-weight="700" letter-spacing="3" fill="#FFFFFF">VNR</text>
+  <text x="254" y="330" font-family="'DM Sans', 'Segoe UI', system-ui, sans-serif"
+        font-size="26" font-weight="600" letter-spacing="8" fill="#B99A59">CONSTRUCTIONS</text>
+
+  <!-- Tagline -->
+  <text x="104" y="470" font-family="Manrope, 'Segoe UI', system-ui, sans-serif"
+        font-size="46" font-weight="600" fill="#FFFFFF">Building Your Vision Into Reality.</text>
+</svg>

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# No backend or admin surface exists, so nothing needs disallowing. Listed
+# anyway so that adding one later is a conscious decision rather than an
+# oversight.
+#
+# Disallow: /admin
+# Disallow: /api
+
+# The estimator is a client-side tool; there is nothing for a crawler to
+# execute, and the page is normal, indexable content.
+
+Sitemap: https://www.vnrconstructions.com/sitemap.xml

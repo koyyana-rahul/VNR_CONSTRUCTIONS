@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" fill="none" role="img"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#102A3D"/><stop offset="1" stop-color="#071727"/>
+  </linearGradient></defs><rect width="1200" height="900" fill="url(#g)"/><line x1="0" y1="0" x2="680.16" y2="435.92"
+      stroke="#D9AD4538" stroke-width="1.4" opacity="0.55"/><line x1="1200" y1="0" x2="680.16" y2="435.92"
+      stroke="#D9AD4538" stroke-width="1.4" opacity="0.55"/><line x1="1200" y1="900" x2="680.16" y2="435.92"
+      stroke="#D9AD4538" stroke-width="1.4" opacity="0.55"/><line x1="0" y1="900" x2="680.16" y2="435.92"
+      stroke="#D9AD45" stroke-width="2" opacity="0.8"/><path d="M 0 54 L 680.16 390.92" stroke="#FFE3A0" stroke-width="3" opacity="0.5"/><rect x="608.16" y="300.92" width="144" height="270"
+    stroke="#D9AD45" stroke-width="2.5" opacity="0.85"/><line x1="608.16" y1="435.92" x2="752.16" y2="435.92"
+    stroke="#D9AD45" stroke-width="1.5" opacity="0.55"/><rect x="168" y="594" width="240" height="180"
+    stroke="#AAB6BF" stroke-width="1.5" opacity="0.5" rx="4"/><rect x="792" y="540" width="264" height="108"
+    stroke="#D9AD456B" stroke-width="1.5" opacity="0.6" rx="4"/><ellipse cx="680.16" cy="774" rx="360" ry="54"
+    fill="#D9AD45" opacity="0.06"/></svg>

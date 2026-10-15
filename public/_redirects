@@ -1,0 +1,28 @@
+# Static host rewrite rules (Apache, cPanel, nginx, GitHub Pages, Firebase).
+#
+# If your host reads a .htaccess, rename this file to .htaccess. Otherwise
+# translate the rewrite into your server's syntax — the requirement is the
+# same: every unknown path must serve index.html, or a refresh on
+# /projects/anything will 404.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Serve existing files (hashed JS/CSS/images) directly.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else goes to the SPA entry point.
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|svg|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

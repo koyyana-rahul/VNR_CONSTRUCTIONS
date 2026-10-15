@@ -1,0 +1,55 @@
+<!--
+  ============================================================================
+  PLACEHOLDER LOGO — REPLACE THIS FILE WITH THE SUPPLIED VNR ARTWORK
+  ============================================================================
+
+  This is NOT the VNR Constructions logo. It is a temporary neutral stand-in
+  used only so the site builds, renders and can be audited while the official
+  artwork is pending.
+
+  The brief requires: "Use the actual supplied VNR logo... Do not stretch, crop,
+  redraw, or recolor it." A stand-in was unavoidable because no logo file was
+  present in the repository or the brief attachment.
+
+  TO REPLACE — pick whichever is easier:
+    A) Drop the real file here as public/vnr-logo.svg (any format works; the
+       <img> tag reads its intrinsic size automatically).
+    B) Keep the real file under a different name and update
+       company.logo.src in src/config/company.js.
+
+  IMPORTANT WHEN SWAPPING:
+    - If the original has a WHITE background, leave company.logo.variant as
+      'light'. The component renders it on white/warm surfaces only and will
+      NOT place it on the deep-black footer. If you supply a verified
+      TRANSPARENT version, set variant to 'transparent' and the footer
+      variant will also be enabled.
+    - Update company.logo.width / height to the real intrinsic pixel size so
+      the layout reserves the correct space and avoids layout shift.
+    - If the logo's gold differs from #B99A59, change it in exactly one place:
+      the `brand-gold` token in src/styles/index.css. Do not retype hex
+      values in components.
+  ============================================================================
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" width="320" height="96" role="img" aria-label="VNR Constructions">
+  <defs>
+    <linearGradient id="goldRule" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A98B4F" />
+      <stop offset="50%" stop-color="#D0B477" />
+      <stop offset="100%" stop-color="#A98B4F" />
+    </linearGradient>
+  </defs>
+
+  <!-- Mark: minimal geometric "V" formed by two strokes -->
+  <g stroke="#171717" stroke-width="7" stroke-linecap="square" fill="none">
+    <path d="M34 26 L56 70 L78 26" />
+  </g>
+  <path d="M34 78 H78" stroke="url(#goldRule)" stroke-width="5" />
+
+  <!-- Wordmark -->
+  <text x="102" y="62"
+        font-family="Manrope, 'Segoe UI', system-ui, sans-serif"
+        font-size="46" font-weight="700" letter-spacing="1.5" fill="#171717">VNR</text>
+  <text x="104" y="84"
+        font-family="'DM Sans', 'Segoe UI', system-ui, sans-serif"
+        font-size="14" font-weight="600" letter-spacing="4.2" fill="#77736B">CONSTRUCTIONS</text>
+</svg>

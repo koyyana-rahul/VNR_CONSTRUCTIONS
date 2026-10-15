@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="VNR Constructions">
+  <rect width="64" height="64" fill="#171717" />
+  <path d="M18 20 L32 46 L46 20" stroke="#D0B477" stroke-width="6" fill="none" stroke-linecap="square" />
+  <path d="M18 51 H46" stroke="#B99A59" stroke-width="4" />
+</svg>

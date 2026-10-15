@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#030A12" />
+
+    <!--
+      Fonts.
+
+      The brief asks for "Georgia or a similar refined serif" for headings and
+      "Arial or a clean sans-serif" for body. Georgia and Arial are named FIRST
+      in the Tailwind font stacks (src/styles/index.css), so the brand character
+      is intact with no network and no webfont at all.
+
+      Playfair Display + DM Sans are layered in AHEAD of those fallbacks to
+      improve the result where they are available. Loading them non-blockingly
+      means the page paints immediately in Georgia/Arial and re-flows once the
+      webfont arrives — there is no invisible text and no blocked first paint.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+      />
+    </noscript>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/vnr-logo.svg" />
+
+    <title>VNR Constructions | Home Construction & Premium Interiors</title>
+    <meta
+      name="description"
+      content="VNR Constructions brings home construction and premium interior solutions together in Hyderabad and Telangana — considered design, quality-conscious materials and clear project discussions. Construction starting price ₹1,799/sq. ft.*"
+    />
+
+    <link rel="canonical" href="https://www.vnrconstructions.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="VNR Constructions" />
+    <meta property="og:title" content="VNR Constructions | Home Construction & Premium Interiors" />
+    <meta
+      property="og:description"
+      content="Home construction and premium interior solutions in Hyderabad and Telangana. Considered design, quality-conscious materials and clear project discussions."
+    />
+    <meta property="og:image" content="/og-image.svg" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="VNR Constructions | Home Construction & Premium Interiors" />
+    <meta
+      name="twitter:description"
+      content="Home construction and premium interior solutions in Hyderabad and Telangana."
+    />
+
+    <!--
+      No fake reviews, ratings or unverified statistics in metadata.
+      Structured data is injected per-route from src/config/company.js and only
+      includes fields that have been confirmed (see needsConfirmation flags).
+    -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div
+        style="
+          padding: 2rem;
+          font-family: Georgia, serif;
+          max-width: 40rem;
+          margin: 0 auto;
+          color: #d0dbe1;
+          background: #030a12;
+        "
+      >
+        <h1 style="color: #ffe3a0">VNR Constructions</h1>
+        <p>
+          Home construction and premium interiors in Hyderabad and Telangana.
+          This website needs JavaScript enabled for the full experience — please
+          call us on +91 90304 25656 and we will assist you personally.
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
