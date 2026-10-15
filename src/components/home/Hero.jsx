@@ -38,16 +38,33 @@ export function Hero() {
   const image = (
     <img
       src={hero.image}
-      alt="Placeholder artwork standing in for the VNR interiors promotional image"
+      alt="Development visual: a lit residential elevation at dusk. Stands in for the supplied VNR interiors promotional image."
       width="1920"
       height="1280"
       fetchPriority="high"
       decoding="sync"
-      className="absolute inset-0 h-full w-full object-cover object-[70%_center] lg:object-center"
+      className="absolute inset-0 h-full w-full object-cover object-[78%_center] lg:object-center"
     />
   );
 
   const overlay = <div aria-hidden="true" className="hero-overlay absolute inset-0" />;
+
+  // Atmospheric warm light behind the copy.
+  //
+  // On phones the hero copy fills almost the full panel, so the backdrop is
+  // only visible in a narrow band behind the header and the section reads flat.
+  // A single large radial bloom gives the composition warm depth at any width
+  // and costs one composited element — no filter, no repaint on scroll.
+  const bloom = (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute -bottom-32 -left-28 size-[30rem] rounded-full opacity-90 sm:size-[40rem] sm:-bottom-40 sm:-left-32 lg:-left-24"
+      style={{
+        background:
+          'radial-gradient(circle, rgb(217 173 69 / 0.16) 0%, rgb(217 173 69 / 0.05) 42%, transparent 68%)',
+      }}
+    />
+  );
 
   const content = (
     <Container size="page" className="relative z-10 flex w-full flex-col justify-end py-14 pb-24 sm:py-16 sm:pb-20 lg:py-20 lg:pb-20">
@@ -143,6 +160,8 @@ export function Hero() {
       >
         {image}
         {overlay}
+        {bloom}
+        <div aria-hidden="true" className="hero-fade absolute inset-x-0 bottom-0 h-40" />
         {content}
       </section>
     );
@@ -161,6 +180,10 @@ export function Hero() {
         {image}
       </m.div>
       {overlay}
+      {bloom}
+      {/* Bottom fade — blends the hero into the highlights section so there is
+          no hard horizontal seam where the artwork stops. */}
+      <div aria-hidden="true" className="hero-fade absolute inset-x-0 bottom-0 h-40" />
       {content}
 
       {/* Thin gold frame — the decorative edge the brief asks for. */}

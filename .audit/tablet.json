@@ -1,0 +1,26 @@
+url        http://localhost:5200/
+http       200
+load       25326ms
+title      "VNR Constructions | Home Construction & Premium Interiors"
+bodyChars  4536
+patchright C:\Users\RAHUL\.vscode\extensions\danielsanmedium.dscodegpt-3.24.77\standalone/
+text       Skip to content PREMIUM HOME CONSTRUCTION & INTERIORS HYDERABAD, TELANGANA 9030425656 Services About VNR Our Process Interiors Contact Book a Consultation HOME CONSTRUCTION & PREMIUM INTERIORS Your Dr
+script     {
+ "band": "tablet",
+ "widths": [
+  768,
+  820,
+  950,
+  1024
+ ],
+ "routes": 13,
+ "pagesChecked": 52,
+ "failures": [],
+ "warnings": [],
+ "failureCount": 0,
+ "warningCount": 0
+}
+
+console errors/warnings (0):
+
+requests failed (0):

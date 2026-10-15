@@ -76,7 +76,7 @@ export function About() {
               <div className="frame-gold overflow-hidden rounded-sm border border-gold-medium">
                 <img
                   src={about.image}
-                  alt="Placeholder artwork standing in for the supplied VNR project image"
+                  alt="Development visual: a floor plan drawing. Stands in for the supplied VNR project image."
                   width="1200"
                   height="900"
                   loading="lazy"
@@ -85,10 +85,14 @@ export function About() {
                 />
               </div>
 
-              {/* Logo plate — contained, never stretched. */}
-              <div className="glass-panel absolute -bottom-6 left-5 right-5 rounded-sm px-6 py-5 sm:-bottom-8 sm:left-8 sm:right-auto sm:px-8">
-                <Logo decorative onDark />
-                <p className="mt-2 text-[0.6875rem] uppercase tracking-[0.16em] text-text-muted">
+              {/* Brand plate at the lower-left corner. It is a real panel (it
+                  carries the tagline and lifts the logo off the artwork), not a
+                  frame drawn around the logo — the logo's own white comes from
+                  the asset. `max-w` stops the panel growing with the column on
+                  wide displays. */}
+              <div className="glass-panel absolute -bottom-5 left-4 max-w-[min(21rem,calc(100%-2rem))] rounded-sm px-4 py-3.5 sm:-bottom-6 sm:left-6 sm:px-5 sm:py-4">
+                <Logo height={68} decorative />
+                <p className="mt-2 text-[0.5625rem] uppercase leading-relaxed tracking-[0.12em] text-text-muted sm:text-[0.625rem] sm:tracking-[0.14em]">
                   {about.tagline}
                 </p>
               </div>

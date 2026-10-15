@@ -41,6 +41,26 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  /**
+   * Logo height — the complete lockup, tagline included.
+   *
+   * The supplied artwork is STACKED at 1.419:1 (monogram, then CONSTRUCTION,
+   * then the tagline), so width follows from height. Sizing is driven by
+   * height on purpose: passing a width would have to hard-code the ratio and
+   * would drift the moment the asset's viewBox changed.
+   *
+   *   mobile  60px tall -> ~85px wide
+   *   lg      76px tall -> ~108px wide
+   *
+   * The brief's suggested 140-240px width is NOT reachable here. At this
+   * aspect, 200px wide is 137px tall and 240px wide is 165px tall, i.e. a
+   * 149-177px header — taller than the entire hero copy above the fold. These
+   * values are the largest a professional header can carry while staying
+   * vertically balanced. The lockup is 96% of its box filled with ink after the
+   * whitespace fix, so this is a genuine size, not a padded one.
+   */
+  const LOGO_HEIGHT = 'clamp(3.75rem, 2.1rem + 2.6vw, 4.75rem)';
+
   const closeDrawer = () => {
     setDrawerOpen(false);
     toggleRef.current?.focus();
@@ -67,18 +87,28 @@ export function Header() {
         )}
       >
         <Container size="page">
-          <div className="flex h-[4.5rem] items-center justify-between gap-3 lg:h-20">
+          {/* Row height is driven by the logo, not the other way round: 80px on
+              mobile holds a 60px lockup, 96px from `lg` holds 76px. The
+              hamburger is size-11 (44px) and the CTA is comfortably centred
+              within the same row, so nothing collides. */}
+          <div className="flex h-20 items-center justify-between gap-3 lg:h-24">
             <Link
               to={ROUTES.home}
               aria-label={`${company.name} — home`}
               className="-my-1 flex min-w-0 shrink-0 items-center rounded-sm py-1"
             >
-              {/* Single fluid instance.
-                  `onDark` is load-bearing: the supplied logo has a WHITE
-                  background, so on the navy glass header Logo wraps it in a
-                  white plate. Without it the dark wordmark rendered directly
-                  on navy and was effectively invisible. */}
-              <Logo onDark />
+              {/* The COMPLETE lockup — monogram, CONSTRUCTION and the
+                  BUILDING BETTER TOMORROWS tagline — at every size, per the
+                  requirement that no context crops a band of the artwork.
+
+                  No white plate is used: the margin around the lettering is
+                  baked into the asset's own viewBox, and the white you see is
+                  the logo's own background rather than a box drawn around it.
+
+                  `shrink-0` is what stops the nav pushing it; the parent is a
+                  flex row with `gap-3`, and the logo takes its width from the
+                  inline height, so it cannot be squeezed or distorted. */}
+              <Logo height={LOGO_HEIGHT} />
             </Link>
 
             <nav aria-label="Primary" className="hidden xl:block xl:flex-1">

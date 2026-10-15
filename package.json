@@ -13,11 +13,15 @@
     "check:company": "node scripts/check-company-data.mjs",
     "fix:imports": "node scripts/fix-imports.mjs",
     "images": "node scripts/generate-images.mjs",
+    "logo": "node scripts/build-logo-assets.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "verify": "npm run lint && npm run test && npm run build",
     "verify:glass": "node scripts/verify-glass.mjs",
     "capture": "node scripts/capture.mjs",
-    "verify:all": "node scripts/verify-all.mjs"
+    "verify:all": "node scripts/verify-all.mjs",
+    "verify:failsafe": "node scripts/verify-failsafe.mjs",
+    "audit:console": "node scripts/audit-console.mjs",
+    "verify:glass:visual": "node scripts/verify-glass-visual.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

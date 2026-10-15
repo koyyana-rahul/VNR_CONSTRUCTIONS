@@ -40,7 +40,11 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <Logo decorative onDark />
+            {/* Complete lockup, sized explicitly. The default clamp tops out at
+                76px tall, which is right for the header but too small for a
+                footer brand block; 92px gives ~131px of logo and lets the
+                tagline band read as a tagline. */}
+            <Logo height={92} decorative />
             <p className="mt-5 font-display text-h4 font-bold text-ivory">
               Building Better Tomorrows.
             </p>

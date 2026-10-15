@@ -8,6 +8,7 @@ import { Layout } from '../components/layout/Layout.jsx';
 import { nav, headerCta } from '../data/home.js';
 import { ROUTES } from '../config/site.js';
 import { company } from '../config/company.js';
+import { SourceCopyPending } from '../components/common/SourceCopyPending.jsx';
 
 /**
  * ============================================================================
@@ -18,9 +19,9 @@ import { company } from '../config/company.js';
  * section order and content. That is a testable contract, so it is tested:
  * every supplied heading is asserted present, in document order.
  *
- * The pending-copy slots are asserted too — not because they are wanted, but
- * because their presence proves the client can see at a glance which wording
- * still needs to come from the source site.
+ * The pending-copy marker is asserted in its own right below — not on the live
+ * page (where every field is now filled with drafted copy) but as a component,
+ * so the fallback that stops a blank card shipping stays covered.
  */
 
 function renderHome() {
@@ -200,11 +201,29 @@ describe('Homepage — reference section order', () => {
     expect(galleryAlts.length).toBeGreaterThan(0);
   });
 
-  it('flags the copy that still needs to come from the source site', () => {
+  it('renders the drafted copy instead of the source-copy placeholders', () => {
     renderHome();
-    // These slots exist so the gap is visible rather than silently invented.
-    const pending = screen.getAllByText(/awaiting the original wording/i);
-    expect(pending.length).toBeGreaterThan(0);
+
+    // The original site copy was never supplied. Rather than leave eleven
+    // "awaiting the original wording" notices on the page, neutral factual
+    // copy was written to describe only what each heading already implies, and
+    // every such field is tagged `copyStatus: 'draft'` in src/data/home.js.
+    expect(screen.queryAllByText(/awaiting the original wording/i)).toHaveLength(0);
+
+    // Spot-check one description from each drafted section.
+    expect(
+      screen.getByText(/ground-up construction of independent houses/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/tell us what the home needs to do/i)).toBeInTheDocument();
+    expect(screen.getByText(/one team for construction and interiors/i)).toBeInTheDocument();
+  });
+
+  it('still degrades visibly if a copy field is ever emptied', () => {
+    // The fallback is not dead code: it is what stops a blank card reaching
+    // production if someone nulls a description. Asserted directly on the
+    // component, because on the live page the fields are all populated.
+    render(<SourceCopyPending label="Service description" />);
+    expect(screen.getByText(/awaiting the original wording/i)).toBeInTheDocument();
   });
 });
 

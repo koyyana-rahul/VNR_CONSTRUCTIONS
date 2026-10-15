@@ -19,6 +19,12 @@ import { projects } from '../src/data/projects.js';
 import { services } from '../src/data/services.js';
 import { testimonials } from '../src/data/testimonials.js';
 import { officialPackagesAvailable, scopeOptions } from '../src/data/packages.js';
+import {
+  services as homeServices,
+  about,
+  process as processSteps,
+  interiors,
+} from '../src/data/home.js';
 
 const companySource = readFileSync(
   new URL('../src/config/company.js', import.meta.url),
@@ -38,8 +44,23 @@ function stringField(pattern) {
   return match?.[1]?.trim() || null;
 }
 
-const checks = [
-  {
+/**
+ * Collects every homepage field still marked `copyStatus: 'draft'`.
+ *
+ * These render as ordinary finished prose, so nothing in the build, the tests or
+ * the browser audits can tell that the client has not yet approved the wording.
+ * Reporting them here is what stops a draft sentence being published by
+ * accident.
+ */
+const draftCopy = [
+  ...homeServices.map((s) => (s.copyStatus === 'draft' ? `service:${s.id}` : null)),
+  about.copyStatus === 'draft' ? 'about:introduction' : null,
+  ...about.values.map((v) => (v.copyStatus === 'draft' ? `about:${v.id}` : null)),
+  ...processSteps.map((p) => (p.copyStatus === 'draft' ? `process:step-${p.step}` : null)),
+  interiors.copyStatus === 'draft' ? 'interiors:description' : null,
+].filter(Boolean);
+
+const checks = [  {
     label: 'Company phone (display)',
     ok: !!stringField(/phone:\s*\{[^}]*?display:\s*'([^']*)'/s),
     fix: 'company.phone.display in src/config/company.js',
@@ -128,6 +149,19 @@ const checks = [
     label: 'Scope options confirmed',
     ok: scopeOptions.length > 0,
     fix: 'src/data/packages.js',
+  },
+  {
+    label: 'Homepage copy approved by VNR (not draft)',
+    // The original site copy was never supplied, so these fields were written
+    // to describe only what each heading already implies. They read as finished
+    // prose on the live site, which means a green build is NOT evidence that the
+    // client has signed them off. This check is the only thing that tracks it.
+    ok: draftCopy.length === 0,
+    fix: 'Replace the draft wording in src/data/home.js, then set copyStatus: "approved"',
+    note:
+      draftCopy.length > 0
+        ? `${draftCopy.length} draft field(s) awaiting client review: ${draftCopy.join(', ')}`
+        : undefined,
   },
   {
     label: 'Testimonials reviewed',

@@ -1,20 +1,34 @@
 /**
  * ============================================================================
- * HOMEPAGE CONTENT — the reference site's copy
+ * HOMEPAGE CONTENT
  * ============================================================================
  *
- * Every string here is supplied verbatim in the rebuild brief. Where the brief
- * says "preserve the existing descriptions" without reproducing them (the
- * About introduction, the six service descriptions, the four process steps and
- * the interiors paragraph), those fields are null and the UI renders an
- * explicit "copy pending from source site" state rather than invented text.
+ * PROVENANCE — read this before publishing.
  *
- * Each such field carries `needsSourceCopy: true`, and
- * `npm run check:company` reports them, so nothing invented can silently ship
- * as if it were the client's own words.
+ * Strings fall into two groups:
  *
- * Once reference/index.html is available, paste the real copy in and delete the
- * matching `needsSourceCopy` flag.
+ * 1. SUPPLIED. Headline, eyebrow, hero body, CTA labels, the ₹1,799/sq. ft.
+ *    starting price and its disclaimer, the six service TITLES and their
+ *    order, the four process step titles, the highlights, and all business
+ *    contact details. These are the client's own words and must not change.
+ *
+ * 2. DRAFT. The six service descriptions, the About introduction, the four
+ *    value statements, the four process step descriptions and the interiors
+ *    paragraph. The original site was never supplied (reference/ contains only
+ *    a README), so rather than invent claims on the client's behalf these were
+ *    written to describe ONLY what each heading already implies — the scope of
+ *    work, not any achievement.
+ *
+ *    Every draft field is tagged `copyStatus: 'draft'` and is reported by
+ *    `npm run check:company` as outstanding. Replace the wording with the real
+ *    copy, then change the tag to `copyStatus: 'approved'`.
+ *
+ * WHAT THE DRAFT COPY DELIBERATELY DOES NOT CONTAIN
+ *   No project counts, no years in business, no square footage delivered, no
+ *   certifications, no awards, no client names, no testimonials, no ratings and
+ *   no superlatives. Those are factual claims about a real business and only
+ *   VNR can make them. If a sentence needs a number to sound good, that is the
+ *   signal that it is not ready to publish.
  */
 
 /* ---- Section 3: Hero --------------------------------------------------- */
@@ -73,7 +87,8 @@ export const highlights = [
 ];
 
 /* ---- Section 5: Services -------------------------------------------------
-   Titles and order are supplied verbatim. Descriptions are flagged. */
+   Titles and order are supplied verbatim. Descriptions are DRAFT — see the
+   provenance note at the top of this file. */
 
 export const services = [
   {
@@ -81,105 +96,115 @@ export const services = [
     number: '01',
     title: 'Independent House Construction',
     icon: 'House',
-    description: null,
-    needsSourceCopy: true,
+    description:
+      'Ground-up construction of independent houses, taking the work from structure and shell through to finishing.',
+    copyStatus: 'draft',
   },
   {
     id: 'interior-solutions',
     number: '02',
     title: 'Complete Interior Solutions',
     icon: 'PaintbrushVertical',
-    description: null,
-    needsSourceCopy: true,
+    description:
+      'Interior work planned as one package, so layout, joinery, surfaces and fittings are decided together rather than in stages.',
+    copyStatus: 'draft',
   },
   {
     id: 'modular-kitchens',
     number: '03',
     title: 'Modular Kitchens',
     icon: 'CookingPot',
-    description: null,
-    needsSourceCopy: true,
+    description:
+      'Modular kitchen layouts with storage, worktops and hardware chosen around how the kitchen is actually used.',
+    copyStatus: 'draft',
   },
   {
     id: 'elevation-exterior',
     number: '04',
     title: 'Elevation & Exterior Design',
     icon: 'Home',
-    description: null,
-    needsSourceCopy: true,
+    description:
+      'Exterior elevation and facade decisions considered for proportion, climate response and finish.',
+    copyStatus: 'draft',
   },
   {
     id: 'bathrooms-fittings',
     number: '05',
     title: 'Bathrooms & Fittings',
     icon: 'ShowerHead',
-    description: null,
-    needsSourceCopy: true,
+    description:
+      'Bathroom layouts specified as one coordinated scope, covering waterproofing, tiling and fittings together.',
+    copyStatus: 'draft',
   },
   {
     id: 'lighting-wardrobes',
     number: '06',
     title: 'Lighting & Wardrobes',
     icon: 'Lamp',
-    description: null,
-    needsSourceCopy: true,
+    description:
+      'Lighting placement and built-in wardrobes planned around how each room is used, not fitted in afterwards.',
+    copyStatus: 'draft',
   },
 ];
 
 /* ---- Section 6: About ---------------------------------------------------
-   Heading is supplied. The introduction and the four value statements are
-   referenced by the brief but not reproduced, so they are pending. */
+   Heading and tagline are supplied. The introduction and the four value
+   statements are DRAFT — see the provenance note at the top of this file. */
 
 export const about = {
   title: 'Building Better Tomorrows.',
   tagline: 'Construction and interiors, under one roof.',
-  introduction: null,
-  needsSourceCopy: true,
+  introduction:
+    'VNR Constructions works across home construction and premium interiors in Hyderabad and Telangana. Because structure and finishing sit with the same team, a project is discussed as one scope instead of being handed between separate contractors.',
+  copyStatus: 'draft',
   values: [
-    { id: 'value-1', text: null, needsSourceCopy: true },
-    { id: 'value-2', text: null, needsSourceCopy: true },
-    { id: 'value-3', text: null, needsSourceCopy: true },
-    { id: 'value-4', text: null, needsSourceCopy: true },
+    { id: 'value-1', text: 'One team for construction and interiors.', copyStatus: 'draft' },
+    { id: 'value-2', text: 'Material choices discussed before work begins.', copyStatus: 'draft' },
+    { id: 'value-3', text: 'Clear scope, pricing and a written quotation.', copyStatus: 'draft' },
+    { id: 'value-4', text: 'Familiar with Hyderabad and Telangana sites.', copyStatus: 'draft' },
   ],
   image: '/images/about-project.svg',
   imageNeedsReplacement: true,
 };
 
-/* ---- Section 7: Four-step process ---------------------------------------- */
+/* ---- Section 7: Four-step process ----------------------------------------
+   Step titles are supplied. Descriptions are DRAFT. */
 
 export const process = [
   {
     step: 1,
     title: 'Share Your Vision',
-    description: null,
-    needsSourceCopy: true,
+    description: 'Tell us what the home needs to do, and which services are in scope.',
+    copyStatus: 'draft',
   },
   {
     step: 2,
     title: 'Site Visit & Discussion',
-    description: null,
-    needsSourceCopy: true,
+    description: 'We visit the plot or property and discuss layout, materials and priorities with you.',
+    copyStatus: 'draft',
   },
   {
     step: 3,
     title: 'Scope & Estimate',
-    description: null,
-    needsSourceCopy: true,
+    description: 'The agreed scope and a written estimate are prepared before work begins.',
+    copyStatus: 'draft',
   },
   {
     step: 4,
     title: 'Plan the Work',
-    description: null,
-    needsSourceCopy: true,
+    description: 'A sequenced work plan is agreed, so each stage is clear before it starts.',
+    copyStatus: 'draft',
   },
 ];
 
-/* ---- Section 8: Premium interiors --------------------------------------- */
+/* ---- Section 8: Premium interiors ---------------------------------------
+   Title and the four feature labels are supplied. Paragraph is DRAFT. */
 
 export const interiors = {
   title: 'Rich Details. Thoughtful Living.',
-  description: null,
-  needsSourceCopy: true,
+  description:
+    'Interior work is planned as a whole — layout, joinery, surfaces, lighting and fittings decided together, so finished rooms feel considered rather than pieced together over time.',
+  copyStatus: 'draft',
   image: '/images/interiors-promo.svg',
   imageNeedsReplacement: true,
   features: [

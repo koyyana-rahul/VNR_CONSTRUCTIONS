@@ -72,7 +72,7 @@ export function About() {
                 />
               </div>
               <div className="glass-panel mt-6 rounded-sm px-6 py-5">
-                <Logo decorative onDark />
+                <Logo height={68} decorative />
                 <p className="mt-2 text-[0.6875rem] uppercase tracking-[0.16em] text-text-muted">
                   {about.tagline} &middot; {company.serviceAreas.list.join(', ')}
                 </p>

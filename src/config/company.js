@@ -84,13 +84,36 @@ export const company = {
    */
   logo: {
     src: '/vnr-logo.svg',
-    width: 210, // intrinsic px — used to reserve space and prevent layout shift
-    height: 56,
     /**
-     * 'light' = artwork has a WHITE background. It must only ever be placed
-     * on white/warm-white surfaces, and must NOT be put on the deep-black
-     * footer/header-on-dark, or you will see a white box.
-     * Change to 'transparent' ONLY if a verified transparent version exists.
+     * Intrinsic box of the delivered asset: the measured artwork (798x548) plus
+     * a 24px even white margin, matching the viewBox written by
+     * scripts/build-logo-assets.mjs.
+     *
+     * These were previously 210x56 (aspect 3.75:1), which matched neither the
+     * source canvas (1:1) nor the artwork (1.456:1). The browser reserved the
+     * wrong box and then resized the real image on load — a genuine layout
+     * shift on the most visible element in the header.
+     */
+    width: 846, // intrinsic px — used to reserve space and prevent layout shift
+    height: 596,
+
+    /**
+     * 'light' = the artwork has a WHITE background, verified by sampling the
+     * rendered corner pixel (rgb(255, 255, 255)).
+     *
+     * That white is INTENTIONAL and is part of the original design: the lockup
+     * is black-and-gold lettering printed on white. It is kept rather than
+     * removed, and the white margin is baked into the asset's own viewBox, so
+     * no box, border, fill or shadow is added around the image at render time.
+     *
+     * Note the artwork is near-black (#1a1a1a-ish) and the header is midnight
+     * navy (#030a12) — a contrast ratio of roughly 1.3:1. The logo is therefore
+     * only legible on a light field. That is a property of the supplied art, not
+     * something CSS can fix without recolouring the brand (which is forbidden).
+     *
+     * Change to 'transparent' ONLY once a verified transparent-background file
+     * exists — and note that even then, a light backing would still be required
+     * on the navy header for the black monogram to be readable.
      */
     variant: 'light',
     needsConfirmation: true,

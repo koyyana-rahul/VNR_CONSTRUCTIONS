@@ -39,10 +39,16 @@ export function Process() {
         <Stagger
           className={[
             'relative mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6',
-            // Mobile rail, hidden once the layout becomes a grid.
+            // Mobile: a vertical gold rail the numbered nodes sit on.
             'before:absolute before:bottom-6 before:left-[1.125rem] before:top-6 before:w-px',
             'before:bg-gradient-to-b before:from-gold/60 before:via-gold/30 before:to-transparent',
-            'lg:before:hidden',
+            // Desktop: the same idea rotated — a horizontal rail behind the row
+            // of nodes. It reuses `before` rather than adding a second element
+            // so there is still exactly one rail, and it cannot drift out of
+            // alignment with the nodes the way a separate div can.
+            'lg:before:bottom-auto lg:before:left-0 lg:before:right-0 lg:before:top-[1.125rem]',
+            'lg:before:h-px lg:before:w-auto',
+            'lg:before:bg-gradient-to-r lg:before:from-transparent lg:before:via-gold/50 lg:before:to-transparent',
           ].join(' ')}
           stagger={0.08}
         >

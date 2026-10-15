@@ -146,7 +146,9 @@ export function MobileDrawer({ open, onClose }) {
             className="min-w-0 rounded-sm"
             aria-label={`${company.name} — home`}
           >
-            <Logo height={38} decorative onDark />
+            {/* Complete lockup, tagline included — the drawer header is a brand
+                moment with vertical room. 64px tall -> ~91px wide. */}
+            <Logo height={64} decorative />
           </Link>
 
           <button

@@ -118,6 +118,19 @@
   --container-page: 82.5rem; /* 1320px, matching --vnr-container */
   --container-prose: 46rem;
 
+  /* ---- Breakpoints -------------------------------------------------------
+     `xs` sits at 480px — the width at which two content columns of real
+     substance first fit, which is wider than the narrowest phones and
+     narrower than Tailwind's default `sm` (640px).
+
+     This is NOT optional. Highlights.jsx uses `xs:grid-cols-2`, and Tailwind v4
+     silently DROPS a variant whose breakpoint is undefined rather than
+     erroring — so without this token that class generated nothing and the
+     four highlights stayed stacked in a single column from 320px all the way
+     to 1024px, wasting a full screen of height on every tablet.
+     ---------------------------------------------------------------------- */
+  --breakpoint-xs: 30rem;
+
   /* ---- Shadows ----------------------------------------------------------- */
   --shadow-card: 0 14px 35px rgb(0 0 0 / 18%);
   --shadow-header: 0 8px 28px rgb(0 0 0 / 30%);
@@ -143,8 +156,17 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-    /* Sticky topbar + header must not cover in-page anchor targets */
-    scroll-padding-top: 7rem;
+    /* Sticky chrome must not cover in-page anchor targets.
+       The topbar is ~48px and the header is now 80px (96px from `lg`), so the
+       offset tracks the tallest combination. It was 7rem, which no longer
+       clears the chrome now the header carries the full logo lockup. */
+    scroll-padding-top: 9.5rem;
+  }
+
+  @media (width >= 64rem) {
+    html {
+      scroll-padding-top: 10.5rem;
+    }
   }
 
   body {
@@ -296,7 +318,11 @@
     }
   }
 
-  /* Small uppercase gold rule + label */
+  /* Small uppercase gold rule + label.
+     Tracking is reduced below 480px: at the full 0.18em the hero eyebrow
+     overflowed a single line on a 390px phone and wrapped to two, which left
+     the leading rule aligned to the first line only and looked broken rather
+     than deliberately stacked. */
   .eyebrow {
     display: inline-flex;
     align-items: center;
@@ -304,9 +330,20 @@
     font-family: var(--font-sans);
     font-size: var(--text-label);
     font-weight: 700;
-    letter-spacing: var(--text-label--letter-spacing);
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-gold);
+  }
+
+  @media (max-width: 479px) {
+    .eyebrow {
+      letter-spacing: 0.1em;
+      gap: 0.5rem;
+    }
+
+    .eyebrow::before {
+      inline-size: 1.125rem;
+    }
   }
 
   .eyebrow::before {
@@ -403,30 +440,42 @@
     }
   }
 
-  /* Cinematic hero scrim: strong on the left where the copy sits,
-     transparent on the right so the artwork stays visible. */
+  /* Cinematic hero scrim.
+     Tuned against the actual hero artwork (scripts/generate-brand-images.mjs →
+     heroBackdrop) rather than guessed. The artwork carries its visual weight in
+     the RIGHT third, so the scrim holds the left at near-full strength where
+     the copy sits and falls away early enough that the building actually
+     reads. An earlier build held the whole panel at 88-97% and the result was
+     an empty navy rectangle — a scrim is a legibility tool, not a blackout. */
   .hero-overlay {
     background: linear-gradient(
       90deg,
-      rgb(3 10 18 / 97%) 0%,
-      rgb(3 10 18 / 88%) 40%,
-      rgb(3 10 18 / 48%) 72%,
-      rgb(3 10 18 / 25%) 100%
+      rgb(3 10 18 / 96%) 0%,
+      rgb(3 10 18 / 93%) 34%,
+      rgb(3 10 18 / 74%) 56%,
+      rgb(3 10 18 / 34%) 78%,
+      rgb(3 10 18 / 20%) 100%
     );
   }
 
-  /* Below `lg` the copy spans the full width, so the scrim must run vertically
-     instead — otherwise the right-hand end of the headline sits over bare
-     image and fails contrast. */
+  /* Below `lg` the copy spans the full width, so the scrim has to run
+     vertically instead. It is lightest across the top band, where there is no
+     text, so the sky and lit facade stay visible behind the header. */
   @media (max-width: 1023px) {
     .hero-overlay {
       background: linear-gradient(
         180deg,
-        rgb(3 10 18 / 88%) 0%,
-        rgb(3 10 18 / 92%) 40%,
-        rgb(3 10 18 / 97%) 100%
+        rgb(3 10 18 / 62%) 0%,
+        rgb(3 10 18 / 74%) 22%,
+        rgb(3 10 18 / 90%) 46%,
+        rgb(3 10 18 / 96%) 100%
       );
     }
+  }
+
+  /* Fades the hero into the following section so there is no hard seam. */
+  .hero-fade {
+    background: linear-gradient(180deg, rgb(3 10 18 / 0%) 55%, rgb(3 10 18 / 85%) 100%);
   }
 }
 
