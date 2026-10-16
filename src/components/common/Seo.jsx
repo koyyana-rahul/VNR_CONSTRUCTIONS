@@ -11,11 +11,17 @@ import { PAGE_SEO, site } from '../../config/site.js';
  * Only verified facts reach the metadata. phone/email/address stay out of
  * JSON-LD until confirmed in config/company.js — see organizationSchema().
  */
-export function Seo({ path = '/', noIndex = false, structuredData = null }) {
+export function Seo({
+  path = '/',
+  noIndex = false,
+  structuredData = null,
+  title: titleOverride,
+  description: descriptionOverride,
+}) {
   useEffect(() => {
     const meta = PAGE_SEO[path];
-    const title = meta?.title ?? `${company.name} — ${company.tagline}`;
-    const description = meta?.description ?? '';
+    const title = titleOverride ?? meta?.title ?? `${company.name} — ${company.tagline}`;
+    const description = descriptionOverride ?? meta?.description ?? '';
     const canonical = `${site.url}${meta?.path ?? path}`;
     const ogImage = `${site.url}${company.seo.defaultOgImage}`;
 
@@ -58,7 +64,7 @@ export function Seo({ path = '/', noIndex = false, structuredData = null }) {
       document.getElementById(id)?.remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path, noIndex]);
+  }, [descriptionOverride, noIndex, path, titleOverride]);
 
   return null;
 }

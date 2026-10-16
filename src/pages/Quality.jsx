@@ -3,10 +3,11 @@ import { PageHero } from '../components/common/PageHero.jsx';
 import { Container } from '../components/common/Container.jsx';
 import { Section } from '../components/common/Section.jsx';
 import { SectionHeading, Button } from '../components/common/Button.jsx';
+import { SurfaceCard } from '../components/common/SurfaceCard.jsx';
 import { SmartImage } from '../components/common/SmartImage.jsx';
 import { DataNotice } from '../components/common/DataNotice.jsx';
 import { Reveal } from '../components/motion/Reveal.jsx';
-import { Icon } from '../components/common/icons.jsx';
+import { IconBadge } from '../components/common/IconBadge.jsx';
 import { CtaBanner } from '../components/home/CtaBanner.jsx';
 import { ROUTES } from '../config/site.js';
 import { qualityStandards } from '../data/quality.js';
@@ -71,7 +72,7 @@ export function Quality() {
                 site and belong in your written agreement and specifications.
               </DataNotice>
 
-              <div className="mt-8 rounded-sm border border-line bg-brand-warm p-6">
+              <SurfaceCard tone="warm" className="mt-8">
                 <h3 className="font-display text-h4 font-bold text-brand-black">
                   What every stage has in common
                 </h3>
@@ -91,7 +92,7 @@ export function Quality() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </SurfaceCard>
             </Reveal>
           </div>
         </Container>
@@ -114,38 +115,44 @@ export function Quality() {
               <Reveal
                 key={item.id}
                 delay={Math.min(index, 6) * 50}
-                className="flex h-full flex-col rounded-sm border border-line bg-brand-white p-6"
+                className="flex h-full flex-col"
               >
-                <div className="flex items-center justify-between gap-3">
-                  <span
-                    aria-hidden="true"
-                    className="grid size-11 place-items-center rounded-sm bg-brand-gold/10 text-brand-gold-muted"
-                  >
-                    <Icon name={item.icon} className="size-5" strokeWidth={1.75} />
-                  </span>
-                  <span className="font-display text-label font-bold tracking-[0.16em] text-brand-gold-muted">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
+                {/* Same card as Packages and Projects. The `h-full` sits on the
+                    Reveal so the surface stretches and the ragged bottom edge
+                    three cards of differing checklist length produced is gone. */}
+                <SurfaceCard className="flex h-full flex-col">
+                  <div className="flex items-center justify-between gap-3">
+                    <IconBadge
+                      name={item.icon}
+                      size="lg"
+                      tone="light"
+                      shape="square"
+                      strokeWidth={1.75}
+                    />
+                    <span className="font-display text-label font-bold tracking-[0.16em] text-brand-gold-muted">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
 
-                <h3 className="mt-5 font-display text-h4 font-bold text-brand-black">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-fine leading-relaxed text-text-muted">
-                  {item.summary}
-                </p>
+                  <h3 className="mt-5 text-balance font-display text-h4 font-bold text-brand-black">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-fine leading-relaxed text-text-muted">
+                    {item.summary}
+                  </p>
 
-                <ul className="mt-5 flex flex-1 flex-col gap-2.5 border-t border-line pt-5">
-                  {item.checks.map((check) => (
-                    <li key={check} className="flex items-start gap-2.5 text-fine text-text">
-                      <span
-                        aria-hidden="true"
-                        className="mt-[0.45rem] size-1.5 shrink-0 rounded-full bg-brand-gold"
-                      />
-                      {check}
-                    </li>
-                  ))}
-                </ul>
+                  <ul className="mt-5 flex flex-1 flex-col gap-2.5 border-t border-line pt-5">
+                    {item.checks.map((check) => (
+                      <li key={check} className="flex items-start gap-2.5 text-fine text-text">
+                        <span
+                          aria-hidden="true"
+                          className="mt-[0.45rem] size-1.5 shrink-0 rounded-full bg-brand-gold"
+                        />
+                        {check}
+                      </li>
+                    ))}
+                  </ul>
+                </SurfaceCard>
               </Reveal>
             ))}
           </div>
@@ -162,7 +169,7 @@ export function Quality() {
               Ask for a worked estimate during the consultation and we will walk
               you through exactly what is included.
             </p>
-            <Button to={ROUTES.contact} variant="primary" size="lg" className="mt-2">
+            <Button to={ROUTES.contact} variant="goldGradient" size="lg" className="mt-2">
               Book a consultation
             </Button>
           </div>

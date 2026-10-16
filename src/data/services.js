@@ -17,7 +17,6 @@ export const services = [
     title: 'Residential Construction',
     shortTitle: 'Residential',
     icon: 'House',
-    image: '/images/service-residential.svg',
     summary:
       'Ground-up construction of individual residences, planned around your plot, budget and how you actually want to live.',
     intro: [
@@ -73,7 +72,6 @@ export const services = [
     title: 'Independent Homes',
     shortTitle: 'Independent Homes',
     icon: 'Home',
-    image: '/images/service-independent.svg',
     summary:
       'Single-family homes for families building on their own land, from compact city plots to larger suburban sites.',
     intro: [
@@ -129,7 +127,6 @@ export const services = [
     title: 'Villas & Duplexes',
     shortTitle: 'Villas & Duplexes',
     icon: 'Landmark',
-    image: '/images/service-villa.svg',
     summary:
       'Multi-level residences with stair cores, higher structural loads and more demanding finish detailing.',
     intro: [
@@ -185,7 +182,6 @@ export const services = [
     title: 'Apartment Buildings',
     shortTitle: 'Apartments',
     icon: 'Building2',
-    image: '/images/service-apartments.svg',
     summary:
       'Multi-unit residential blocks where repetition, standardisation and services coordination drive cost.',
     intro: [
@@ -241,7 +237,6 @@ export const services = [
     title: 'Commercial Buildings',
     shortTitle: 'Commercial',
     icon: 'Store',
-    image: '/images/service-commercial.svg',
     summary:
       'Offices, showrooms and mixed-use structures built to work commercially, not just to look finished.',
     intro: [
@@ -297,7 +292,6 @@ export const services = [
     title: 'Renovation',
     shortTitle: 'Renovation',
     icon: 'Hammer',
-    image: '/images/service-renovation.svg',
     summary:
       'Repair, refurbishment and change of use — often the most cost-effective route to the building you actually want.',
     intro: [
@@ -353,7 +347,6 @@ export const services = [
     title: 'Interiors & Finishing',
     shortTitle: 'Interiors',
     icon: 'PaintbrushVertical',
-    image: '/images/service-interiors.svg',
     summary:
       'Interior fit-out and finishing work that turns a completed structure into a space you want to use.',
     intro: [
@@ -409,7 +402,6 @@ export const services = [
     title: 'Construction Consultation',
     shortTitle: 'Consultation',
     icon: 'ClipboardList',
-    image: '/images/service-consultation.svg',
     summary:
       'Independent guidance if you already have a design, or want a second opinion before you commit to anything.',
     intro: [

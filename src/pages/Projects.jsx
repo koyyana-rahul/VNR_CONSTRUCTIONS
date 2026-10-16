@@ -4,6 +4,7 @@ import { PageHero } from '../components/common/PageHero.jsx';
 import { Container } from '../components/common/Container.jsx';
 import { Section } from '../components/common/Section.jsx';
 import { SectionHeading, Button } from '../components/common/Button.jsx';
+import { SurfaceCard } from '../components/common/SurfaceCard.jsx';
 import { DataNotice } from '../components/common/DataNotice.jsx';
 import { ProjectCard } from '../components/projects/ProjectCard.jsx';
 import { FilterTabs } from '../components/projects/FilterTabs.jsx';
@@ -133,39 +134,56 @@ export function Projects() {
                 className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
               >
                 {Array.from({ length: 6 }, (_, i) => (
-                  <li
-                    key={i}
-                    className="overflow-hidden rounded-sm border border-line bg-brand-white"
-                  >
-                    <div className="aspect-[16/10] w-full animate-pulse bg-brand-mist motion-reduce:animate-none" />
-                    <div className="space-y-3 p-5">
-                      <div className="h-3 w-24 animate-pulse rounded bg-brand-mist motion-reduce:animate-none" />
-                      <div className="h-5 w-3/4 animate-pulse rounded bg-brand-mist motion-reduce:animate-none" />
-                      <div className="h-3 w-full animate-pulse rounded bg-brand-mist motion-reduce:animate-none" />
-                      <div className="h-3 w-5/6 animate-pulse rounded bg-brand-mist motion-reduce:animate-none" />
-                    </div>
+                  <li key={i}>
+                    {/* The skeleton is a SurfaceCard with `pad="none"` so the
+                        loading state is the SAME box the loaded card becomes —
+                        same border, same radius, same height. It was a separate
+                        hand-rolled shell, which meant the grid jumped the moment
+                        the skeletons were replaced. */}
+                    <SurfaceCard pad="none" className="overflow-hidden">
+                      <div className="aspect-[16/10] w-full animate-pulse bg-brand-mist motion-reduce:animate-none" />
+                      <div className="space-y-3 p-5">
+                        <div className="h-3 w-24 animate-pulse rounded bg-brand-mist motion-reduce:animate-none" />
+                        <div className="h-5 w-3/4 animate-pulse rounded bg-brand-mist motion-reduce:animate-none" />
+                        <div className="h-3 w-full animate-pulse rounded bg-brand-mist motion-reduce:animate-none" />
+                        <div className="h-3 w-5/6 animate-pulse rounded bg-brand-mist motion-reduce:animate-none" />
+                      </div>
+                    </SurfaceCard>
                   </li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* ---- ERROR ---- */}
+          {/* ---- ERROR ----
+              The failure panel is a SurfaceCard too, so a fetch error looks
+              like part of the page rather than a raw alert that appeared.
+              `role="alert"` stays on the wrapper: this is the one place that
+              must interrupt, because the visitor asked for data and did not get
+              it. */}
           {error && (
-            <div
-              role="alert"
-              className="mt-10 flex flex-col items-center rounded-sm border border-brand-gold/45 bg-brand-gold/8 px-6 py-14 text-center"
-            >
-              <h3 className="font-display text-h4 font-bold text-brand-black">
-                We could not load the portfolio.
-              </h3>
-              <p className="mt-2 max-w-sm text-fine text-text">
-                Something went wrong fetching the project list. Please try again —
-                if it keeps happening, contact us directly and we will help.
-              </p>
-              <Button onClick={() => { setProjects(null); setError(null); setAttempt((n) => n + 1); }} variant="primary" size="md" className="mt-6">
-                Try again
-              </Button>
+            <div role="alert" className="mt-10">
+              <SurfaceCard className="flex flex-col items-center px-6 py-14 text-center">
+                <h3 className="font-display text-h4 font-bold text-brand-black">
+                  We could not load the portfolio.
+                </h3>
+                <p className="mt-2 max-w-sm text-fine text-text">
+                  Something went wrong fetching the project list. Please try again —
+                  if it keeps happening, contact us directly and we will help.
+                </p>
+                <Button
+                  onClick={() => {
+                    setProjects(null);
+                    setError(null);
+                    setAttempt((n) => n + 1);
+                  }}
+                  variant="goldGradient"
+                  size="md"
+                  className="mt-6"
+                >
+                  Try again
+                </Button>
+              </SurfaceCard>
             </div>
           )}
 

@@ -40,9 +40,38 @@ export const hero = {
   body: 'VNR Constructions brings home construction and premium interior solutions together with a focus on considered design, quality-conscious material choices and clear project discussions. Let’s shape a home that reflects your lifestyle and your future.',
   primaryCta: 'Discuss Your Project',
   secondaryCta: 'Explore Our Services',
-  /** Placeholder until vnr-interiors-promo.png is supplied. */
-  image: '/images/hero-interiors.svg',
-  imageNeedsReplacement: true,
+
+  /**
+   * THE SUPPLIED HERO PHOTOGRAPH.
+   *
+   * public/images/Hero.png — 1672 x 941 (16:9), an evening construction scene:
+   * a tower crane over a building under construction on the left, a completed
+   * modern house on the right, and a VNR-branded gold hard hat resting on the
+   * working drawings in the foreground.
+   *
+   * THE COMPOSITION IS THE LAYOUT. The left third of the frame is open sunset
+   * sky with almost no detail; the right third carries the house and the hard
+   * hat. That is why the copy sits bottom-LEFT over the image as a full-bleed
+   * background rather than in a split panel — the headline lands on the
+   * photograph's own negative space, so it needs no opaque box and the
+   * building stays visible.
+   *
+   * Intrinsic size is declared so the browser reserves the hero box before the
+   * bitmap decodes. The file is 2.0 MB; see scripts/media-manifest.mjs for the
+   * recommendation to transcode it once an encoder is available.
+   */
+  image: '/images/Hero.png',
+  imageWidth: 1672,
+  imageHeight: 941,
+  /**
+   * Describes the pixels for a screen reader. It deliberately does not repeat
+   * the visible headline — the <h1> already carries the message — it conveys
+   * what the photograph actually shows.
+   */
+  imageAlt:
+    'An evening construction site: a tower crane over a building under construction, a completed modern house beside it, and a gold VNR Constructions hard hat resting on working drawings in the foreground.',
+  /** No longer a placeholder — this is a real supplied asset. */
+  imageNeedsReplacement: false,
 };
 
 /* ---- Section 3b: promotional starting price -----------------------------
@@ -74,7 +103,10 @@ export const highlights = [
   },
   {
     id: 'both',
-    icon: 'Home',
+    // `Building2`, not `Home`: Lucide's `Home` and `House` are the SAME
+    // component, so using either here rendered a glyph identical to the
+    // "Independent House Construction" service card two sections below.
+    icon: 'Building2',
     title: 'Construction & Interiors',
     description: 'One place to begin',
   },
@@ -122,7 +154,9 @@ export const services = [
     id: 'elevation-exterior',
     number: '04',
     title: 'Elevation & Exterior Design',
-    icon: 'Home',
+    // A framed elevation, not another house — `Home` would have been a third
+    // identical glyph on the same screen.
+    icon: 'Frame',
     description:
       'Exterior elevation and facade decisions considered for proportion, climate response and finish.',
     copyStatus: 'draft',
@@ -203,7 +237,7 @@ export const process = [
 export const interiors = {
   title: 'Rich Details. Thoughtful Living.',
   description:
-    'Interior work is planned as a whole — layout, joinery, surfaces, lighting and fittings decided together, so finished rooms feel considered rather than pieced together over time.',
+    'Interior work is planned as a whole: layout, joinery, surfaces, lighting and fittings are decided together, so finished rooms feel considered rather than pieced together over time.',
   copyStatus: 'draft',
   image: '/images/interiors-promo.svg',
   imageNeedsReplacement: true,
@@ -211,7 +245,7 @@ export const interiors = {
     { id: 'kitchens', title: 'Modular Kitchens', icon: 'CookingPot' },
     { id: 'living', title: 'Living Rooms', icon: 'Sofa' },
     { id: 'bedrooms', title: 'Bedrooms & Wardrobes', icon: 'BedDouble' },
-    { id: 'lighting', title: 'Lighting & Fittings', icon: 'Lamp' },
+    { id: 'lighting', title: 'Lighting & Fittings', icon: 'Lightbulb' },
   ],
 };
 
@@ -273,6 +307,74 @@ export const nav = [
   { to: '/contact', label: 'Contact', description: 'Tell us about your project' },
 ];
 
+/**
+ * Home is reachable from the logo on every breakpoint, so it is deliberately
+ * NOT in the desktop header bar — five links plus a CTA plus a 172px logo is
+ * already the limit at 1280px.
+ *
+ * The mobile drawer is a different surface: it is the ONLY navigation a phone
+ * user gets, and it listed five links with no Home at all. This entry exists so
+ * the drawer can open with it without changing the header.
+ */
+export const navHome = {
+  to: '/',
+  label: 'Home',
+  description: 'Back to the top of the site',
+};
+
+/**
+ * THE SUPPORTING PAGES WERE ORPHANED.
+ * -----------------------------------
+ * `/projects`, `/packages`, `/estimate` and `/quality` are fully built, have
+ * their own SEO entries in config/site.js and their own sitemap rows — and
+ * NOTHING linked to them. `nav` above has five items and none of them is one of
+ * those routes, and the footer's Explore column was built from `nav` plus Home,
+ * so a visitor could not reach any of them from anywhere in the navigation.
+ *
+ * On desktop the header bar genuinely has no room for four more links, so they
+ * live where there IS room: the mobile drawer, and the footer's two-column
+ * Explore list. Both were being carried by a large empty area anyway.
+ *
+ * Kept here, beside `nav`, so the two lists cannot drift apart.
+ */
+export const navSecondary = [
+  {
+    to: '/projects',
+    label: 'Our Projects',
+    description: 'Completed and in-progress work',
+  },
+  {
+    to: '/packages',
+    label: 'Packages',
+    description: 'Compare three build scopes',
+  },
+  {
+    to: '/estimate',
+    label: 'Cost Estimator',
+    description: 'Indicative budget in seconds',
+  },
+  {
+    to: '/quality',
+    label: 'Quality Standards',
+    description: 'How each trade is handled',
+  },
+];
+
+/**
+ * The primary list PLUS Home, for the desktop bar.
+ *
+ * Home sits in the desktop header as a real link even though the logo already
+ * goes home. That is a deliberate reversal of the usual advice — a "Home" item
+ * next to a logo that links home is often called redundant — and the reason is
+ * that the bar and the drawer have to agree. The drawer lists Home, and a
+ * desktop visitor who learned the navigation from a phone should find the same
+ * destinations in the same words, not a different set plus a logo.
+ *
+ * It is first in the list rather than hidden, so it reads as the start of the
+ * sequence instead of an afterthought bolted on the right.
+ */
+export const navWithHome = [navHome, ...nav];
+
 export const headerCta = { to: '/contact', label: 'Book a Consultation' };
 
 /** Service options in the contact form, per the brief. */
@@ -295,4 +397,8 @@ export default {
   process,
   interiors,
   gallery,
+  nav,
+  navHome,
+  navSecondary,
+  navWithHome,
 };

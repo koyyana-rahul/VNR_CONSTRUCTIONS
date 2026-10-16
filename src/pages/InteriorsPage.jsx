@@ -2,7 +2,7 @@ import { Seo } from '../components/common/Seo.jsx';
 import { Container } from '../components/common/Container.jsx';
 import { Section } from '../components/common/Section.jsx';
 import { SectionHeading, Button } from '../components/common/Button.jsx';
-import { Icon } from '../components/common/icons.jsx';
+import { IconBadge } from '../components/common/IconBadge.jsx';
 import { Reveal, Stagger, StaggerItem } from '../components/motion/Reveal.jsx';
 import { SourceCopyPending } from '../components/common/SourceCopyPending.jsx';
 import { interiors } from '../data/home.js';
@@ -32,12 +32,7 @@ export function InteriorsPage() {
                 {interiors.features.map((feature) => (
                   <StaggerItem key={feature.id}>
                     <div className="glass-card group flex h-full items-start gap-3.5 rounded-sm p-5 transition-[border-color,transform] duration-300 hover:-translate-y-[3px] hover:border-gold-medium motion-reduce:transform-none motion-reduce:hover:translate-y-0">
-                      <span
-                        aria-hidden="true"
-                        className="grid size-10 shrink-0 place-items-center rounded-full border border-gold/40 text-gold transition-colors duration-300 group-hover:border-gold"
-                      >
-                        <Icon name={feature.icon} className="size-[1.15rem]" strokeWidth={1.5} />
-                      </span>
+                      <IconBadge name={feature.icon} size="md" interactive />
                       <h2 className="pt-2 font-display text-[1.0625rem] font-bold text-gold-light">
                         {feature.title}
                       </h2>

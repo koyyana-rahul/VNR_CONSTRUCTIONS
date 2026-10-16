@@ -101,7 +101,7 @@ export function ProjectDetail() {
                 We could not find a project at that address. It may have been
                 renamed, or the link may be incorrect.
               </p>
-              <Button to={ROUTES.projects} variant="primary" size="lg" className="mt-8">
+              <Button to={ROUTES.projects} variant="goldGradient" size="lg" className="mt-8">
                 Back to all projects
               </Button>
               <Button
@@ -188,7 +188,7 @@ export function ProjectDetail() {
               </div>
             </div>
 
-            <Button to={ROUTES.contact} variant="primary" size="md" className="shrink-0">
+            <Button to={ROUTES.contact} variant="goldGradient" size="md" className="shrink-0">
               Discuss a similar project
             </Button>
           </div>
@@ -224,7 +224,7 @@ export function ProjectDetail() {
 
             <Reveal delay={80} className="lg:col-span-5">
               {specs.length > 0 && (
-                <div className="rounded-sm border border-line bg-brand-warm p-6">
+                <div className="rounded-sm border border-line bg-surface-warm p-6">
                   <h2 className="font-display text-label font-bold uppercase tracking-[0.16em] text-brand-gold-muted">
                     Specifications
                   </h2>

@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Seo } from '../components/common/Seo.jsx';
 import { Container } from '../components/common/Container.jsx';
 import { Section } from '../components/common/Section.jsx';
@@ -25,7 +25,7 @@ export function Contact() {
               eyebrow="Contact"
               title="Tell Us About Your Project."
               as="h1"
-              lead="Share your plot, budget and timeline. We will come back with a clear next step — no obligation, and no obligation to reply either."
+              lead="Share your plot, budget and timeline. We will come back with a clear next step, with no obligation to proceed."
               align="center"
             />
           </Reveal>
@@ -44,12 +44,12 @@ export function Contact() {
               The cost estimator turns your area and specification into an
               indicative budget in about fifteen seconds.
             </p>
-            <a
-              href={ROUTES.estimate}
+            <Link
+              to={ROUTES.estimate}
               className="mt-2 inline-flex min-h-11 items-center rounded-sm font-sans text-sm font-semibold text-gold underline underline-offset-4 transition-colors hover:text-gold-light"
             >
               Open the cost estimator
-            </a>
+            </Link>
           </div>
         </Container>
       </Section>

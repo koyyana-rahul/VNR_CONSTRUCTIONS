@@ -27,7 +27,9 @@ const VARIANTS = {
   goldGradient:
     'border border-transparent bg-gradient-to-b from-gold-button-light to-gold-button-dark text-navy ' +
     'shadow-[0_8px_22px_-10px_rgba(217,173,69,0.7)] hover:shadow-[0_12px_28px_-10px_rgba(217,173,69,0.85)]',
-  gold: 'border border-gold bg-gold text-navy hover:bg-gold-light hover:border-gold-light',
+  gold:
+    'border border-gold-button-dark bg-gold-button-light text-navy ' +
+    'hover:border-gold-button-dark hover:bg-gold-button-dark',
   outline:
     'border border-gold-medium bg-transparent text-text-primary hover:border-gold hover:bg-gold/10 hover:text-gold-light',
   onDark: 'border border-transparent bg-ivory text-navy hover:bg-white',
@@ -42,6 +44,28 @@ const SIZES = {
   md: 'min-h-11 px-5 py-2.5 text-[0.9375rem] gap-2',
   lg: 'min-h-13 px-7 py-3.5 text-base gap-2.5 sm:min-h-14 sm:px-8',
 };
+
+/* A misspelled variant must not degrade silently.
+ *
+ * `cn()` drops undefined values, so `variant="primry"` — or `variant="primary"`,
+ * which six call sites across Quality, Projects, ProjectDetail and
+ * ServiceDetail were using — resolves to no variant classes AT ALL. The button
+ * still renders, still passes its test, and looks like an unadorned text link.
+ * Four of those were the primary CTA of their page.
+ *
+ * So an unknown variant throws in development. In production it falls back to
+ * `goldGradient` rather than throwing inside a render: a build-time mistake
+ * must not take a live page down. */
+function resolveVariant(variant) {
+  if (VARIANTS[variant]) return VARIANTS[variant];
+
+  if (import.meta.env?.DEV) {
+    throw new Error(
+      `Button: unknown variant "${variant}". Use one of: ${Object.keys(VARIANTS).join(', ')}.`,
+    );
+  }
+  return VARIANTS.goldGradient;
+}
 
 export function Button({
   as,
@@ -77,7 +101,7 @@ export function Button({
     'hover:-translate-y-0.5 motion-reduce:hover:translate-y-0',
     'focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold',
     'disabled:pointer-events-none disabled:opacity-45 disabled:hover:translate-y-0',
-    VARIANTS[variant],
+    resolveVariant(variant),
     SIZES[size],
     fullWidth && 'w-full',
     className,

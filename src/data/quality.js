@@ -83,7 +83,8 @@ export const qualityStandards = [
   {
     id: 'finishing',
     title: 'Finishing',
-    icon: 'PaintbrushVertical',
+    // A roller, not the generic paintbrush used by the Interiors service card.
+    icon: 'PaintRoller',
     summary: 'The visible layer gets the most attention, because it is what you see.',
     checks: [
       'Wall and ceiling preparation reviewed before paint or wall treatment',

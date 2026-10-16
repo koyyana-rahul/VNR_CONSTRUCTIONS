@@ -5,7 +5,7 @@ import { AlertCircle, Send, CheckCircle2, MessageCircle } from 'lucide-react';
 import { Container } from '../common/Container.jsx';
 import { Section } from '../common/Section.jsx';
 import { SectionHeading, Button } from '../common/Button.jsx';
-import { Icon } from '../common/icons.jsx';
+import { IconBadge } from '../common/IconBadge.jsx';
 import { Reveal } from '../motion/Reveal.jsx';
 import { contactFormSchema, contactDefaults } from '../../utils/validation.js';
 import { submitEnquiry, buildWhatsAppMessage } from '../../services/enquiry.js';
@@ -64,7 +64,7 @@ export function ContactSection() {
     <Section id="contact" tone="navy">
       <Container size="page">
         <Reveal>
-          <SectionHeading eyebrow="Get in touch" title="Tell Us About Your Project." align="center" />
+          <SectionHeading title="Tell Us About Your Project." align="center" />
         </Reveal>
 
         <Reveal delay={60}>
@@ -76,12 +76,7 @@ export function ContactSection() {
 
                 <ul className="mt-6 flex flex-col gap-4 text-fine">
                   <li className="flex items-start gap-3">
-                    <span
-                      aria-hidden="true"
-                      className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full border border-gold/40 text-gold"
-                    >
-                      <Icon name="MapPinned" className="size-4" strokeWidth={1.5} />
-                    </span>
+                      <IconBadge name="MapPinned" size="sm" className="mt-0.5" />
                     <span>
                       <span className="block font-semibold text-text-primary">Service area</span>
                       <span className="text-text-muted">
@@ -92,12 +87,7 @@ export function ContactSection() {
 
                   {telHref() && (
                     <li className="flex items-start gap-3">
-                      <span
-                        aria-hidden="true"
-                        className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full border border-gold/40 text-gold"
-                      >
-                        <Icon name="PhoneCall" className="size-4" strokeWidth={1.5} />
-                      </span>
+                      <IconBadge name="PhoneCall" size="sm" className="mt-0.5" />
                       <a href={telHref()} className="min-w-0 rounded-sm">
                         <span className="block font-semibold text-text-primary">Phone</span>
                         <span className="text-text-muted transition-colors hover:text-gold-light">
@@ -109,12 +99,7 @@ export function ContactSection() {
 
                   {whatsappHrefWithForm && (
                     <li className="flex items-start gap-3">
-                      <span
-                        aria-hidden="true"
-                        className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full border border-gold/40 text-gold"
-                      >
-                        <Icon name="MessageCircle" className="size-4" strokeWidth={1.5} />
-                      </span>
+                      <IconBadge name="MessageCircle" size="sm" className="mt-0.5" />
                       <a
                         href={whatsappHrefWithForm}
                         target="_blank"
@@ -130,12 +115,7 @@ export function ContactSection() {
                   )}
 
                   <li className="flex items-start gap-3">
-                    <span
-                      aria-hidden="true"
-                      className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-full border border-gold/40 text-gold"
-                    >
-                      <Icon name="Boxes" className="size-4" strokeWidth={1.5} />
-                    </span>
+                      <IconBadge name="Boxes" size="sm" className="mt-0.5" />
                     <span>
                       <span className="block font-semibold text-text-primary">
                         Project types
@@ -239,19 +219,35 @@ export function ContactSection() {
                       />
                     </LightField>
 
-                    {/* Consent is legally required for this kind of contact. */}
+                    {/* Consent is legally required for this kind of contact.
+
+                        The surface used to be `bg-ivory/60` — ivory at 60% over
+                        the DARK glass panel, which composites to a flat
+                        light-silver slab (#9fa0a1) in the middle of a navy
+                        card. It is the only off-brand colour on the page, it
+                        looks like a disabled control, and it forced
+                        `text-navy` to sit beside `text-ivory` labels in the
+                        same form.
+
+                        It is a dark translucent panel now, matching every other
+                        dark surface in the chrome: a faint white wash, a
+                        low-alpha border that still reads as a hit area, and the
+                        site's own `--color-line` for the resting border.
+                        `accent-gold` rather than `accent-gold-button-dark`,
+                        because the checkbox sits on navy here and the darker
+                        champagne step is the ivory-section value. */}
                     <label
                       htmlFor="contact-consent"
                       className={`flex cursor-pointer items-start gap-3 rounded-sm border p-3.5 text-fine leading-relaxed transition-colors ${
                         errors.consent
-                          ? 'border-red-500 bg-red-50/40 text-navy'
-                          : 'border-input-border bg-ivory/60 text-navy hover:border-gold-button-dark'
+                          ? 'border-red-400/70 bg-red-900/20 text-text-primary'
+                          : 'border-white/12 bg-white/[0.04] text-text-secondary hover:border-gold/45 hover:bg-white/[0.07]'
                       }`}
                     >
                       <input
                         id="contact-consent"
                         type="checkbox"
-                        className="mt-0.5 size-5 shrink-0 accent-gold-button-dark"
+                        className="mt-0.5 size-5 shrink-0 accent-gold"
                         aria-invalid={errors.consent ? true : undefined}
                         {...register('consent')}
                       />

@@ -3,7 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { Container } from '../common/Container.jsx';
 import { Section } from '../common/Section.jsx';
 import { SectionHeading } from '../common/Button.jsx';
-import { Icon } from '../common/icons.jsx';
+import { IconBadge } from '../common/IconBadge.jsx';
 import { Reveal, Stagger, StaggerItem } from '../motion/Reveal.jsx';
 import { services } from '../../data/home.js';
 import { SourceCopyPending } from '../common/SourceCopyPending.jsx';
@@ -70,12 +70,7 @@ export function Services() {
                 />
 
                 <div className="flex items-start justify-between gap-4 p-6">
-                  <span
-                    aria-hidden="true"
-                    className="grid size-12 shrink-0 place-items-center rounded-full border border-gold/35 text-gold"
-                  >
-                    <Icon name={service.icon} className="size-5" strokeWidth={1.5} />
-                  </span>
+                  <IconBadge name={service.icon} size="lg" interactive />
                   <span className="font-display text-h3 font-bold tabular-nums text-gold/40">
                     {service.number}
                   </span>

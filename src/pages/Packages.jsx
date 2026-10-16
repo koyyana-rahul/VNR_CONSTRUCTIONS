@@ -4,7 +4,8 @@ import { PageHero } from '../components/common/PageHero.jsx';
 import { Container } from '../components/common/Container.jsx';
 import { Section } from '../components/common/Section.jsx';
 import { SectionHeading, Button } from '../components/common/Button.jsx';
-import { DataNotice } from '../components/common/DataNotice.jsx';
+import { SurfaceCard, CardMeta } from '../components/common/SurfaceCard.jsx';
+import { DataNotice, StatusBadge } from '../components/common/DataNotice.jsx';
 import { ScopeComparison } from '../components/packages/ScopeComparison.jsx';
 import { Reveal, Stagger, StaggerItem } from '../components/motion/Reveal.jsx';
 import { CtaBanner } from '../components/home/CtaBanner.jsx';
@@ -59,42 +60,40 @@ export function Packages() {
             />
           </Reveal>
 
-          <Stagger className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <Stagger className="mt-12 grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-3">
             {scopeOptions.map((option, index) => (
-              <StaggerItem
-                key={option.id}
-                className="flex h-full flex-col rounded-sm border border-line bg-brand-white p-6 sm:p-7"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="font-display text-label font-bold tracking-[0.16em] text-brand-gold-muted">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className="rounded-full border border-line bg-brand-warm px-2.5 py-1 font-display text-[0.6875rem] font-bold tabular-nums text-text">
-                    {countCapabilities(option)}/
-                    {Object.keys(option.capabilities).length} covered
-                  </span>
-                </div>
-
-                <h3 className="mt-4 font-display text-h3 font-bold text-brand-black">
-                  {option.title}
-                </h3>
-                <p className="mt-1.5 text-fine font-semibold text-brand-gold-muted">
-                  {option.tagline}
-                </p>
-                <p className="mt-3 flex-1 text-fine leading-relaxed text-text">
-                  {option.summary}
-                </p>
-
-                <dl className="mt-5 space-y-3 border-t border-line pt-5 text-fine">
-                  <div>
-                    <dt className="font-semibold text-brand-black">Best for</dt>
-                    <dd className="mt-0.5 text-text">{option.bestFor}</dd>
+              <StaggerItem key={option.id} className="flex h-full flex-col">
+                {/* `h-full` moved onto the StaggerItem wrapper so the SURFACE is
+                    the full-height element, rather than a card whose padding is
+                    full height and whose content is not. With three cards of
+                    different lengths in one row, the old markup left the
+                    shorter two with a ragged bottom edge. */}
+                <SurfaceCard className="flex h-full flex-col">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-display text-label font-bold tracking-[0.16em] text-brand-gold-muted">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <StatusBadge
+                      label={`${countCapabilities(option)}/${Object.keys(option.capabilities).length} covered`}
+                      tone="neutral"
+                    />
                   </div>
-                  <div>
-                    <dt className="font-semibold text-brand-black">Programme</dt>
-                    <dd className="mt-0.5 text-text">{option.durationNote}</dd>
-                  </div>
-                </dl>
+
+                  <h3 className="mt-4 text-balance font-display text-h3 font-bold text-brand-black">
+                    {option.title}
+                  </h3>
+                  <p className="mt-1.5 text-fine font-semibold text-brand-gold-muted">
+                    {option.tagline}
+                  </p>
+                  <p className="mt-3 flex-1 text-fine leading-relaxed text-text">
+                    {option.summary}
+                  </p>
+
+                  <dl className="mt-5 space-y-3 border-t border-line pt-5 text-fine">
+                    <CardMeta label="Best for">{option.bestFor}</CardMeta>
+                    <CardMeta label="Programme">{option.durationNote}</CardMeta>
+                  </dl>
+                </SurfaceCard>
               </StaggerItem>
             ))}
           </Stagger>
@@ -118,7 +117,7 @@ export function Packages() {
           </div>
 
           <Reveal className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <Button to={ROUTES.estimate} variant="gold" size="lg" fullWidth className="sm:w-auto">
+            <Button to={ROUTES.estimate} variant="goldGradient" size="lg" fullWidth className="sm:w-auto">
               Estimate the cost
             </Button>
             <Button to={ROUTES.contact} variant="outline" size="lg" fullWidth className="sm:w-auto">
@@ -151,19 +150,22 @@ export function Packages() {
                   )
                   .map((service) => (
                     <li key={service.id}>
-                      <Link
+                      {/* `interactive` for the shared hover — these were the
+                          ninth hand-written card treatment. */}
+                      <SurfaceCard
+                        as={Link}
                         to={`${ROUTES.services}/${service.slug}`}
-                        className="group flex items-start gap-4 rounded-sm border border-line bg-brand-warm p-5 transition-colors hover:border-brand-gold/55"
+                        tone="warm"
+                        interactive
+                        className="group block"
                       >
-                        <span className="min-w-0 flex-1">
-                          <span className="block font-display text-h4 font-bold text-brand-black transition-colors group-hover:text-brand-gold-muted">
-                            {service.title}
-                          </span>
-                          <span className="mt-1 block text-fine text-text">
-                            {service.summary}
-                          </span>
+                        <span className="block font-display text-h4 font-bold text-brand-black transition-colors group-hover:text-brand-gold-muted">
+                          {service.title}
                         </span>
-                      </Link>
+                        <span className="mt-1 block text-fine text-text">
+                          {service.summary}
+                        </span>
+                      </SurfaceCard>
                     </li>
                   ))}
               </ul>

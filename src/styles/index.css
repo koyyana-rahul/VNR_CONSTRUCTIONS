@@ -45,6 +45,15 @@
   /* ---- Form surfaces ---------------------------------------------------- */
   --color-input-background: #fffdf8;
 
+  /* ---- Light-section card surface ----------------------------------------
+     `bg-brand-warm` is named "warm" but resolves to --color-navy-2, so it
+     painted a DARK navy card inside the ivory sections of Quality, Packages,
+     Service detail, Project detail and the estimator — with navy body text on
+     it, at roughly 1.1:1. The nine light-section usages now take this token
+     instead. The modal footer is the one genuinely dark usage of
+     `bg-brand-warm` and was deliberately left alone. */
+  --color-surface-warm: #fbf9f3;
+
   /* ------------------------------------------------------------------------
      SEMANTIC ALIASES
      Components reference these rather than raw palette names, so a future
@@ -81,8 +90,26 @@
   --font-sans: 'DM Sans', Arial, 'Helvetica Neue', system-ui, sans-serif;
 
   /* ---- Fluid type scale (clamp — no breakpoint ladder) -------------------- */
-  --text-hero: clamp(2.5rem, 6vw, 4.875rem);
-  --text-hero--line-height: 1.01;
+  /* HERO DISPLAY TYPE — the single fluid ramp for the hero headline.
+     Used in exactly one place (components/home/Hero.jsx), so tuning it here
+     cannot leak into any other page.
+
+     It replaces `clamp(2.5rem, 6vw, 4.875rem)`. That ramp looked correct at
+     desktop but floored out at 40px from 0px to 640px viewport width — a flat
+     plateau, which is why the hero needed hard-coded mobile overrides
+     (1.625rem / 1.875rem / 2.125rem) to compensate. That is exactly the abrupt
+     step-ladder this site should not have: it made mobile a different design
+     rather than a scaled one.
+
+     The new ramp is continuous from 320px to 1440px and lands on the same
+     4.875rem (78px) desktop maximum. Its lower floor matters: the desktop
+     headline breaks as one sentence per line — "Your Dream Home." is ~800px
+     wide at 78px inside an 832px column. Scaled to a 358px phone column that
+     line needs ~34px, not 40px. At 40px it wrapped mid-phrase and pushed the
+     CTAs down; the copy is the same copy either way, only the line breaks and
+     the vertical rhythm change. */
+  --text-hero: clamp(2.125rem, 1.1rem + 4.3vw, 4.875rem);
+  --text-hero--line-height: 1.04;
   --text-hero--letter-spacing: -0.035em;
 
   --text-display: clamp(2.25rem, 1.5rem + 3.4vw, 4rem);
@@ -114,6 +141,44 @@
   --text-fine: 0.8125rem;
   --text-fine--line-height: 1.65;
 
+  /* ---- Icon treatment ----------------------------------------------------
+     Centralised so every icon container on the site is built from the same
+     four values. Before these existed, the highlights, services, interiors and
+     contact rows each hand-rolled their own circle and drifted apart —
+     border-gold/35, /40 and /45 across four different sizes — so the same
+     control looked like three different components.
+     ---------------------------------------------------------------------- */
+  --color-icon-ring: rgb(217 173 69 / 34%);
+  --color-icon-ring-strong: rgb(217 173 69 / 58%);
+  --color-icon-tint: rgb(217 173 69 / 8%);
+  --color-icon-tint-hover: rgb(217 173 69 / 16%);
+
+  /* The ivory-panel pair, for IconBadge's `light` tone.
+
+     These were four hard-coded hex values inside IconBadge.jsx. Three of them
+     are the dark pair at different alphas; the fourth (#1B2A36) was the glyph
+     colour and appeared nowhere else in the codebase, so any future re-theme
+     would have left the Quality page's icons behind. Promoting them to tokens
+     keeps the light tone exactly as controllable as the dark one. */
+  --color-icon-ring-light: rgb(122 90 18 / 26%);
+  --color-icon-ring-light-strong: rgb(122 90 18 / 55%);
+  --color-icon-tint-light: rgb(217 173 69 / 12%);
+  --color-icon-tint-light-hover: rgb(217 173 69 / 20%);
+
+  /* ---- Notice surface ------------------------------------------------------
+     DataNotice sits on BOTH the ivory sections of Packages / Projects /
+     Quality / the estimator AND the dark sections of the homepage. Its
+     background used to be a literal `bg-white/[0.03]`, which over ivory is
+     indistinguishable from the page — the notices rendered as a faint gold
+     hairline floating on nothing while the brand already carried
+     `--color-surface-warm` for precisely this.
+
+     Declaring it as a token and re-pointing it in `.on-light` means the notice
+     follows its surface automatically, with no prop and no chance of a call
+     site picking the wrong one. Same mechanism as the text tokens above. */
+  --notice-surface: rgb(255 255 255 / 3%);
+  --notice-border: var(--color-gold-subtle);
+
   /* ---- Layout ------------------------------------------------------------ */
   --container-page: 82.5rem; /* 1320px, matching --vnr-container */
   --container-prose: 46rem;
@@ -131,6 +196,71 @@
      ---------------------------------------------------------------------- */
   --breakpoint-xs: 30rem;
 
+  /* ---- Logo + header chrome (single source of truth) ----------------------
+     ONE set of numbers, consumed by the header, the drawer and the hero:
+
+       --logo-w   the rendered WIDTH of /vnr-logo.png
+       --logo-h   its rendered height, derived so the ratio can never drift
+       --chrome-h TopBar + Header, published at runtime by
+                  src/hooks/useChromeHeight.js because BOTH are
+                  content-driven and change with wrapping and breakpoint
+
+     WHY WIDTH, NOT HEIGHT
+     ---------------------
+     Design specs talk about logo WIDTH ("a 200px logo"), and driving width
+     with `height: auto` lets the browser derive the height from the asset's
+     own intrinsic attributes (1774 x 887), so the ratio is impossible to
+     break. Driving by height instead hard-codes nothing but describes the
+     wrong quantity.
+
+     THE ASSET IS 2.2313:1 AFTER TRIMMING
+     ------------------------------------
+     --logo-w / --logo-h describe the TRIMMED display asset (1495 x 670), so
+     height = width / 2.2313 = width x 0.4482. The untouched original is
+     1774 x 887 (2.000:1) but only fills 82% x 71% of itself; sizing that one
+     directly is what produced a large white rectangle around a small mark.
+     Trimming first means nearly every pixel of width added is brand.
+
+     The ladder is deliberately compact — the brief's bands, with the header
+     held to logo + 24px of padding + the 1px gold rule:
+
+       logo-w   logo-h   applies     brief band
+       116px     52px    < 480px     320-359 -> 110-125
+                               360-430 -> 125-145
+       136px     61px    480-639px   bridge to tablet
+       156px     70px    640-1023px  600-1023 -> 145-175
+       164px     73px    1024-1279   laptop
+       172px     77px    1280px+     desktop
+
+     Every step lands inside the band its viewport belongs to, and the tallest
+     header is now 94px.
+
+     The base step is deliberately the smallest: at 320px the header row is the
+     logo plus a 44px hamburger and the container gutters, and a 130px logo left
+     only ~100px of breathing room — it read as crowded and competed with the
+     menu button for the same band.
+
+     The desktop steps were pulled back from 188px for the same reason in
+     reverse. At 188px the artwork was 84px tall inside a 101px header — 83% of
+     the chrome's height — which is a logo that dominates its own header rather
+     than sitting in it. 172px is 77px in a 94px row (~82% is still generous at
+     this ratio) while leaving the nav and CTA visibly balanced.
+     ---------------------------------------------------------------------- */
+  /*
+     ALL THREE MUST BE DEFINED HERE, AT :root — not only inside the media
+     queries below. A missing base value is not a graceful degradation: the
+     drawer and footer logos size themselves with `width: var(--logo-w-drawer)`,
+     and when that custom property is undefined the declaration becomes invalid
+     at computed-value time, so the width is DROPPED ENTIRELY and the image
+     falls back to its intrinsic 1495px. That is exactly what happened below
+     480px, and it pushed ~1150px of horizontal overflow into the page.
+     Define every token at every breakpoint, including the smallest.
+  */
+  --logo-w: 7.25rem;
+  --logo-w-drawer: 7.75rem;
+  --logo-w-footer: 7.25rem;
+  --logo-h: calc(var(--logo-w) * 0.4482); /* 670 / 1495 */
+
   /* ---- Shadows ----------------------------------------------------------- */
   --shadow-card: 0 14px 35px rgb(0 0 0 / 18%);
   --shadow-header: 0 8px 28px rgb(0 0 0 / 30%);
@@ -145,6 +275,57 @@
    BASE
    ========================================================================== */
 
+/* Logo width steps. --logo-h follows from the trimmed asset's 2.2313:1 ratio,
+   so each step's height is width x 0.4482. 480px is the project's own `xs`
+   breakpoint (see --breakpoint-xs); it bridges 430px phones to the 640px
+   tablet band.
+
+   THREE tokens, one asset, one ratio:
+     --logo-w          header
+     --logo-w-drawer   mobile drawer  — one step up, it has the vertical room
+     --logo-w-footer   footer brand block — one step up on wide screens
+
+   The drawer and footer deliberately do NOT reuse --logo-w: they are separate
+   brand moments that want to read slightly larger than the header, and the
+   brief asks for context-appropriate sizing without duplicating conflicting
+   styles. One variable per context, all fed by the same ratio, is the whole
+   mechanism. */
+@media (min-width: 480px) {
+  :root {
+    --logo-w: 8.5rem;
+    --logo-w-drawer: 8.75rem;
+    --logo-w-footer: 8.5rem;
+  }
+}
+@media (min-width: 640px) {
+  :root {
+    --logo-w: 9.75rem;
+    --logo-w-drawer: 10rem;
+    --logo-w-footer: 9.75rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --logo-w: 10.25rem;
+    --logo-w-drawer: 10.75rem;
+    --logo-w-footer: 10.25rem;
+  }
+}
+@media (min-width: 1280px) {
+  :root {
+    --logo-w: 10.75rem;
+    --logo-w-drawer: 10.75rem;
+    --logo-w-footer: 10.75rem;
+  }
+}
+
+/* Fallback for --chrome-h until useChromeHeight publishes it. 13rem is a
+   conservative TopBar+Header estimate. It only ever feeds `min-height`, so
+   being briefly wrong shifts the hero by a few pixels and cannot clip. */
+:root {
+  --chrome-h: 13rem;
+}
+
 @layer base {
   *,
   *::before,
@@ -157,16 +338,18 @@
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
     /* Sticky chrome must not cover in-page anchor targets.
-       The topbar is ~48px and the header is now 80px (96px from `lg`), so the
-       offset tracks the tallest combination. It was 7rem, which no longer
-       clears the chrome now the header carries the full logo lockup. */
-    scroll-padding-top: 9.5rem;
-  }
 
-  @media (width >= 64rem) {
-    html {
-      scroll-padding-top: 10.5rem;
-    }
+       This now reads `--chrome-h`, the value useChromeHeight publishes from the
+       REAL TopBar + Header, rather than a hard-coded guess. It was 9.5rem /
+       10.5rem, both inherited from the old 80px/96px header and both stale:
+       the header is content-driven, so its height changes with the logo step,
+       with TopBar line-wrapping (measured 60px -> 112px between 320px and
+       1024px) and with the user's default font size. A fixed number cannot
+       track all three, so `#services` landed under the chrome on a phone.
+
+       `--chrome-h` has a conservative 13rem fallback in the stylesheet for the
+       first paint before the hook runs. */
+    scroll-padding-top: var(--chrome-h, 13rem);
   }
 
   body {
@@ -237,6 +420,107 @@
     outline-color: var(--color-gold-button-dark);
   }
 
+  /* -----------------------------------------------------------------------
+     LIGHT-SURFACE TOKEN OVERRIDES
+
+     This is the fix for a real, site-wide accessibility failure.
+
+     `.on-light` has always been applied by <Section> for the ivory, white and
+     mist tones, but it only ever styled the focus ring. Every other token kept
+     its dark-theme value, so the light sections rendered:
+
+       heading    #F1EEE6 on ivory   1.08:1   <- effectively invisible
+       body       #D0DBE1 on ivory   1.31:1
+       gold label #D9AD45 on ivory   1.96:1
+
+     WCAG AA wants 3:1 for large text and 4.5:1 for body, so the most
+     prominent text on the Quality, Packages, Estimate, About and
+     service-detail pages was failing by a factor of three to four. On screen
+     it read as a stylistic choice; it was simply unreadable.
+
+     Fixing it at the token level is the point: every utility already compiles
+     to `color: var(--color-...)` (verified in the built CSS), so re-pointing
+     the variables re-themes the whole subtree at once and a new light
+     component cannot reintroduce the bug.
+
+     Values are the darkest readable form of each brand hue:
+       #12283A 14.1:1   #3E5261 7.6:1   #5A6D7D 5.0:1   #7A5A12 5.9:1
+     --------------------------------------------------------------------- */
+  .on-light {
+    --color-text-primary: #12283a;
+    --color-text: #3e5261;
+    --color-text-secondary: #3e5261;
+    --color-text-muted: #5a6d7d;
+
+    /* DataNotice's own surface, re-pointed for ivory. See the token in the
+       @theme block for why it exists. */
+    --notice-surface: var(--color-surface-warm);
+    --notice-border: var(--color-gold-medium);
+
+    /* The SEMANTIC ALIASES from the theme block must be overridden too.
+       `--color-brand-gold-muted: var(--color-gold-button-dark)` is substituted
+       and resolved AT :root, so re-pointing --color-gold-button-dark on a
+       descendant changes nothing — the child still inherits the already-resolved
+       #c9952d. Custom properties carry resolved values, not the expression.
+       That is why `text-brand-gold-muted` kept rendering gold-on-ivory at 2.5:1
+       after the palette was fixed. Both halves have to be set. */
+    --color-text-strong: #12283a;
+    --color-line: #ddd6c4;
+    --color-line-strong: #c6bca4;
+
+    /* Champagne is a dark-surface accent: on ivory the brand gold is only
+       1.96:1, so gold re-points to a deeper champagne that keeps the hue
+       identity while clearing AA. Gold GRADIENTS are left alone — those are
+       dark text on gold and already pass. */
+    --color-gold: #7a5a12;
+    --color-gold-light: #6b4e0f;
+    --color-gold-button-dark: #7a5a12;
+    --color-gold-subtle: rgb(122 90 18 / 12%);
+    --color-gold-medium: rgb(122 90 18 / 45%);
+    --color-gold-strong: rgb(122 90 18 / 68%);
+    --color-border-gold: rgb(122 90 18 / 30%);
+
+    --color-brand-gold: #7a5a12;
+    --color-brand-gold-light: #6b4e0f;
+    --color-brand-gold-muted: #7a5a12;
+  }
+
+  /* -----------------------------------------------------------------------
+     DARK-SURFACE RESET
+
+     `.on-light` re-points the tokens for its whole subtree, so a dark panel
+     placed INSIDE a light section would inherit light-theme text and vanish.
+     Applying this to any dark surface nested in a light section restores the
+     brand's dark palette exactly.
+     --------------------------------------------------------------------- */
+  .on-dark {
+    --color-text-primary: #f1eee6;
+    --color-text: #d0dbe1;
+    --color-text-secondary: #d0dbe1;
+    --color-text-muted: #aab6bf;
+    --color-text-strong: #f1eee6;
+
+    /* A dark panel nested in a light section gets the dark notice surface
+       back, for the same reason it gets the dark text palette back. */
+    --notice-surface: rgb(255 255 255 / 3%);
+    --notice-border: var(--color-gold-subtle);
+
+    --color-gold: #d9ad45;
+    --color-gold-light: #ffe3a0;
+    --color-gold-button-dark: #c9952d;
+    --color-gold-subtle: #d9ad4538;
+    --color-gold-medium: #d9ad456b;
+    --color-gold-strong: #d9ad45a6;
+    --color-border-gold: rgb(217 173 69 / 30%);
+
+    --color-brand-gold: #d9ad45;
+    --color-brand-gold-light: #ffe3a0;
+    --color-brand-gold-muted: #c9952d;
+
+    --color-line: #243746;
+    --color-line-strong: #2f465a;
+  }
+
   ::selection {
     background-color: var(--color-gold);
     color: var(--color-black-blue);
@@ -300,6 +584,74 @@
 }
 
 @layer components {
+  /* -----------------------------------------------------------------------
+     SELECTABLE CONTROL — one selection language for the whole site
+     -----------------------------------------------------------------------
+     Anything the visitor can pick between — a filter tab, a unit toggle, a
+     contingency preset, a specification card — is drawn from this one pair of
+     rules, selected with `data-active` rather than a class string.
+
+     WHY IT IS NOT FOUR SETS OF UTILITY CLASSES
+     The four supporting pages had drifted into TWO languages. The header, the
+     drawer and the estimator's own specification cards all mark the current
+     choice in champagne; the project filter tabs, the area-unit toggle and the
+     contingency presets all marked it in near-black with ivory text. Both were
+     correct-looking and both appeared on the same page — the estimator alone
+     used gold at line 249 and black at 204 and 390.
+
+     Because those were hand-written per call site, they also drifted on the
+     hover and transition timings. Writing them once means a fifth control
+     cannot introduce a third language.
+
+     `data-active` rather than a variant class because the state is DATA, not a
+     style variant: it belongs with the element's own state, it is readable in
+     the devtools markup, and it needs no extra class to keep in sync.
+
+     The colours resolve from tokens, so `.on-light` re-points them and the
+     same class string is correct on ivory and on navy. */
+  .vnr-selectable {
+    transition:
+      border-color 200ms var(--ease-architectural),
+      background-color 200ms var(--ease-architectural),
+      color 200ms var(--ease-architectural);
+  }
+
+  .vnr-selectable[data-active='true'] {
+    border-color: var(--color-gold);
+    background-color: var(--color-gold-subtle);
+    color: var(--color-brand-gold-light);
+  }
+
+  .vnr-selectable[data-active='false'] {
+    border-color: var(--color-line);
+    background-color: transparent;
+    color: var(--color-text);
+  }
+
+  .vnr-selectable[data-active='false']:hover {
+    border-color: var(--color-gold-medium);
+    color: var(--color-brand-gold);
+  }
+
+  /* Reduced motion: the change is instant, and still obvious, because the
+     fill and border both change. */
+  @media (prefers-reduced-motion: reduce) {
+    .vnr-selectable {
+      transition: none;
+    }
+  }
+
+  /* -----------------------------------------------------------------------
+     NOTICE SURFACE — follows the surface it sits on
+     -----------------------------------------------------------------------
+     Defined by the `--notice-surface` / `--notice-border` tokens rather than a
+     literal, because DataNotice is used on ivory sections AND dark ones and
+     one hard-coded value cannot be right on both. */
+  .vnr-notice {
+    border-color: var(--notice-border);
+    background-color: var(--notice-surface);
+  }
+
   /* -----------------------------------------------------------------------
      CONTAINER
      `width: min(100% - 40px, var(--vnr-container))` gives a controlled max
@@ -441,34 +793,80 @@
   }
 
   /* Cinematic hero scrim.
-     Tuned against the actual hero artwork (scripts/generate-brand-images.mjs →
-     heroBackdrop) rather than guessed. The artwork carries its visual weight in
-     the RIGHT third, so the scrim holds the left at near-full strength where
-     the copy sits and falls away early enough that the building actually
-     reads. An earlier build held the whole panel at 88-97% and the result was
-     an empty navy rectangle — a scrim is a legibility tool, not a blackout. */
+     Tuned against the ACTUAL hero photograph (public/images/Hero.png), not
+     guessed.
+
+     This is a bright frame — a low sun, a warm orange sky and pale concrete —
+     carrying white text, so the scrim has to do real work. Two layers:
+
+       1. A flat 28% navy wash. This is the part that guarantees contrast. A
+          directional gradient alone cannot: it is thin at the right edge, and
+          the right edge is exactly where the sun and the pale balcony are
+          brightest. Without the flat base the headline stays legible but the
+          secondary body copy over the sun does not.
+
+       2. A directional gradient over the copy column, near-opaque to 44% and
+          releasing to the right so the house and the hard hat stay visible.
+          The copy column runs to roughly half the panel, so the scrim has to
+          hold that far — an earlier version released at 56% and the words
+          "Home." and "Commitment." fought the window grid behind them. */
   .hero-overlay {
-    background: linear-gradient(
-      90deg,
-      rgb(3 10 18 / 96%) 0%,
-      rgb(3 10 18 / 93%) 34%,
-      rgb(3 10 18 / 74%) 56%,
-      rgb(3 10 18 / 34%) 78%,
-      rgb(3 10 18 / 20%) 100%
-    );
+    background:
+      linear-gradient(
+        90deg,
+        rgb(3 10 18 / 93%) 0%,
+        rgb(3 10 18 / 90%) 30%,
+        rgb(3 10 18 / 80%) 44%,
+        rgb(3 10 18 / 54%) 60%,
+        rgb(3 10 18 / 26%) 78%,
+        rgb(3 10 18 / 16%) 100%
+      ),
+      rgb(3 10 18 / 28%);
   }
 
-  /* Below `lg` the copy spans the full width, so the scrim has to run
-     vertically instead. It is lightest across the top band, where there is no
-     text, so the sky and lit facade stay visible behind the header. */
+  /* Below `lg` the copy sits at the TOP of the panel and the hard hat at the
+     BOTTOM-RIGHT, so the scrim runs vertically.
+
+     Tuned against the ACTUAL content block, measured in the browser at 390px,
+     not against the panel. `object-position: 88%` plus a `cover` scale of
+     0.812 widens the frame to ~1357px for a 390px window, so the hard hat
+     spans essentially the FULL panel width from y 51% to y 90% — there is no
+     horizontal band on a phone that is free of it.
+
+     That makes the number that matters the height at which the last line of
+     copy ENDS, not where the hat begins. Measured after the mobile copy was
+     tightened (Hero.jsx): the disclaimer finishes at ~76% of the panel at
+     390px and ~79% at 320px, where the type wraps hardest.
+
+     So the wash is held near-opaque through that whole band — 86% at 60%,
+     76% at 76%, 66% at 84% — and only releases across the bottom sixth, from
+     50% at 90% to 18% at 100%. The helmet keeps its shape and its warmth as a
+     glow at the foot of the panel, and the copy above it stays legible on the
+     brightest yellow in the frame.
+
+     The previous curve dropped to 24% by 78%, which put the final two lines of
+     the disclaimer directly onto the lit shell of the helmet: white on yellow
+     at 24% scrim, effectively unreadable, and the screenshot showed it.
+
+     An even wash over the whole frame — the obvious shortcut — is still wrong,
+     because past 86% there is nothing to protect and the helmet would go flat.
+     A flat base layer is unnecessary here for the same reason the desktop
+     gradient has one only where the sun needs it: on mobile the bottom edge IS
+     the helmet. */
   @media (max-width: 1023px) {
     .hero-overlay {
       background: linear-gradient(
         180deg,
-        rgb(3 10 18 / 62%) 0%,
-        rgb(3 10 18 / 74%) 22%,
-        rgb(3 10 18 / 90%) 46%,
-        rgb(3 10 18 / 96%) 100%
+        rgb(3 10 18 / 96%) 0%,
+        rgb(3 10 18 / 94%) 30%,
+        rgb(3 10 18 / 92%) 46%,
+        rgb(3 10 18 / 89%) 58%,
+        rgb(3 10 18 / 86%) 66%,
+        rgb(3 10 18 / 76%) 76%,
+        rgb(3 10 18 / 66%) 84%,
+        rgb(3 10 18 / 50%) 90%,
+        rgb(3 10 18 / 30%) 96%,
+        rgb(3 10 18 / 18%) 100%
       );
     }
   }
@@ -484,6 +882,14 @@
    ========================================================================== */
 
 @layer utilities {
+  /* Data notices appear on dark sections and on ivory ones. Their title has to
+     follow the surface, so it is bound to the active text token rather than a
+     fixed ivory. Declared in @layer utilities (not components) so it wins over
+     a same-layer `text-*` utility on specificity alone. */
+  .data-notice__title {
+    color: var(--color-text-primary);
+  }
+
   /* Screens with a home indicator need safe-area padding */
   .pb-safe {
     padding-bottom: max(0.75rem, env(safe-area-inset-bottom));

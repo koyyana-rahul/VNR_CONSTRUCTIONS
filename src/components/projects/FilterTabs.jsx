@@ -90,14 +90,20 @@ export function FilterTabs({
               tabIndex={isActive ? 0 : -1}
               onClick={() => onChange(option.id)}
               onKeyDown={(e) => onKeyDown(e, index)}
+              data-active={isActive}
               className={cn(
-                'inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 py-2',
+                // `vnr-selectable` carries the whole selected/unselected
+                // language. This tab used to hard-code
+                // `border-brand-black bg-brand-black text-brand-white` for the
+                // active state — near-black pills on an ivory page, while the
+                // header, the drawer and the estimator's own specification
+                // cards all mark the current choice in champagne. Two selection
+                // languages on one site, and the Projects page was the odd one
+                // out. `data-active` means a fifth filter control cannot
+                // introduce a third.
+                'vnr-selectable inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 py-2',
                 'font-display text-sm font-semibold tracking-tight',
-                'transition-colors duration-200 ease-[var(--ease-architectural)]',
                 'motion-reduce:transition-none',
-                isActive
-                  ? 'border-brand-black bg-brand-black text-brand-white'
-                  : 'border-line bg-brand-white text-text hover:border-brand-gold hover:text-brand-gold-muted',
               )}
             >
               {option.label}
@@ -105,7 +111,7 @@ export function FilterTabs({
                 aria-hidden="true"
                 className={cn(
                   'rounded-full px-1.5 py-0.5 text-[0.6875rem] font-bold tabular-nums',
-                  isActive ? 'bg-white/18 text-brand-white' : 'bg-brand-mist text-text-muted',
+                  isActive ? 'bg-gold/20 text-brand-gold-light' : 'bg-brand-mist text-text-muted',
                 )}
               >
                 {count}

@@ -4,7 +4,7 @@ import { X, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '../common/Button.jsx';
 import { Logo } from '../brand/Logo.jsx';
 import { cn } from '../../utils/cn.js';
-import { nav, headerCta } from '../../data/home.js';
+import { nav, navHome, navSecondary, headerCta } from '../../data/home.js';
 import { ROUTES } from '../../config/site.js';
 import {
   company,
@@ -146,9 +146,11 @@ export function MobileDrawer({ open, onClose }) {
             className="min-w-0 rounded-sm"
             aria-label={`${company.name} — home`}
           >
-            {/* Complete lockup, tagline included — the drawer header is a brand
-                moment with vertical room. 64px tall -> ~91px wide. */}
-            <Logo height={64} decorative />
+            {/* Sized via --logo-w-drawer, not a local class. `className` on <Logo>
+                lands on the wrapper span, which cannot size the image — passing
+                width explicitly is the only thing that actually moves the
+                artwork. One token, shared with the header's ratio. */}
+            <Logo width="var(--logo-w-drawer)" decorative />
           </Link>
 
           <button
@@ -162,15 +164,36 @@ export function MobileDrawer({ open, onClose }) {
           </button>
         </div>
 
-        {/* Links */}
-        <nav aria-label="Mobile" className="flex-1 overflow-y-auto overscroll-contain py-2">
-          <ul className="flex flex-col">
-            {nav.map((item) => (
+        {/* Links.
+
+            Ten destinations in two groups, not five in one.
+
+            The drawer used to render `nav` alone: no Home (the logo was the only
+            way back, which is not a navigation affordance on a list) and no link
+            at all to /projects, /packages, /estimate or /quality — four fully
+            built pages that nothing in the chrome pointed to. That left 280px of
+            empty panel between "Contact" and the CTA, which is exactly how a
+            drawer ends up looking unfinished.
+
+            `HOME + nav` is the primary set and keeps the full-size row with the
+            gold active marker. `navSecondary` follows under a small uppercase
+            rule at a lighter weight, because these are supporting tools rather
+            than destinations in their own right — but they are all real routes
+            with their own SEO entries, so they are reachable now.
+
+            The list centres in whatever height is left (`justify-center` on the
+            flex column) rather than pinning to the top, so the panel is balanced
+            at 568px and at 932px alike, and `overflow-y-auto` still takes over
+            if a future entry makes it taller than a short landscape phone. */}
+        <nav aria-label="Mobile" className="flex flex-1 flex-col overflow-y-auto overscroll-contain py-2">
+          <ul className="flex flex-1 flex-col justify-center">
+            {[navHome, ...nav].map((item) => (
               <li key={item.to} className="border-b border-white/8 last:border-b-0">
                 <NavLink
                   to={item.to}
                   onClick={onClose}
                   aria-description={item.description}
+                  end={item.to === '/'}
                   className={({ isActive }) =>
                     cn(
                       'flex min-h-14 items-center justify-between gap-3 px-5 py-3',
@@ -194,6 +217,46 @@ export function MobileDrawer({ open, onClose }) {
                         {item.label}
                       </span>
                       <ArrowRight className="size-4 shrink-0 text-gold" aria-hidden="true" />
+                    </>
+                  )}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-3 px-5 font-sans text-[0.6875rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+            Also worth seeing
+          </p>
+          <ul className="mt-1 flex flex-col">
+            {navSecondary.map((item) => (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  onClick={onClose}
+                  aria-description={item.description}
+                  className={({ isActive }) =>
+                    cn(
+                      'flex min-h-12 items-center justify-between gap-3 rounded-sm px-5 py-2.5',
+                      'font-sans text-[0.9375rem] font-medium',
+                      'transition-colors duration-200',
+                      isActive
+                        ? 'bg-gold/10 text-gold-light'
+                        : 'text-text-muted hover:bg-white/6 hover:text-text-secondary active:bg-white/10',
+                    )
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <span className="flex items-center gap-3">
+                        {isActive && (
+                          <span
+                            aria-hidden="true"
+                            className="h-4 w-0.5 shrink-0 rounded-full bg-gold"
+                          />
+                        )}
+                        {item.label}
+                      </span>
+                      <ArrowRight className="size-3.5 shrink-0 text-gold/70" aria-hidden="true" />
                     </>
                   )}
                 </NavLink>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Container } from '../common/Container.jsx';
 import { Section } from '../common/Section.jsx';
 
@@ -26,12 +27,12 @@ export function PageHero({ eyebrow, title, lead, breadcrumbs, children }) {
                     </span>
                   )}
                   {crumb.to ? (
-                    <a
-                      href={crumb.to}
+                    <Link
+                      to={crumb.to}
                       className="inline-flex min-h-11 items-center rounded-sm underline-offset-4 transition-colors hover:text-brand-gold-muted hover:underline"
                     >
                       {crumb.label}
-                    </a>
+                    </Link>
                   ) : (
                     <span aria-current="page" className="text-text">
                       {crumb.label}

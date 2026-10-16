@@ -77,25 +77,52 @@ export const company = {
   needsConfirmation: true,
 
   /**
-   * Path to the logo. The brief requires the ORIGINAL supplied artwork —
-   * never redrawn, recoloured, cropped or stretched.
-   * Replace src/assets/brand/vnr-logo.svg with the real file and keep this path,
-   * or point it at the new file. See README "Replacing the logo".
+   * Path to the logo. The brief requires the SUPPLIED artwork — never redrawn,
+   * recoloured, cropped or stretched.
+   *
+   * THE ASSET CHANGED. This used to be `/vnr-logo.svg`, an SVG wrapper around
+   * an embedded 1280x1280 JPEG of the older stacked lockup. That file no longer
+   * exists in the project, so every reference to it 404'd, fell through the SPA
+   * fallback and rendered as broken-image alt text in the header — which is
+   * what was actually on screen. The replacement is the supplied
+   * `public/vnr-logo.png`.
    */
   logo: {
-    src: '/vnr-logo.svg',
     /**
-     * Intrinsic box of the delivered asset: the measured artwork (798x548) plus
-     * a 24px even white margin, matching the viewBox written by
-     * scripts/build-logo-assets.mjs.
+     * THE TRIMMED DISPLAY ASSET, NOT THE ORIGINAL.
      *
-     * These were previously 210x56 (aspect 3.75:1), which matched neither the
-     * source canvas (1:1) nor the artwork (1.456:1). The browser reserved the
-     * wrong box and then resized the real image on load — a genuine layout
-     * shift on the most visible element in the header.
+     * `vnr-logo.png` is the untouched supplied artwork. It is an OPAQUE RGB PNG
+     * (colour type 2 — no alpha channel at all) whose artwork sits inside an
+     * even white field:
+     *
+     *     ink bbox   x 160..1614, y 124..753   (1455 x 630)
+     *     ink fill   82.0% of the width, 71.0% of the height
+     *
+     * Because the white is opaque and evenly distributed it renders as a large
+     * WHITE RECTANGLE with the mark floating inside it. On the midnight-navy
+     * header that block is the loudest element in the chrome, and only 82% of
+     * every pixel of width is actually logo — so adding width bought mostly
+     * white, not brand. That is what made the logo read as "oversized inside a
+     * large white rectangle" while the mark itself stayed small.
+     *
+     * `vnr-logo-trim.png` is that same file losslessly cropped to the measured
+     * ink bounds plus a 20px even margin: fill becomes 97.3% x 94.0%, and the
+     * white no longer dominates. No letterform, no gold blade and no wordmark
+     * pixel was altered — only dead whitespace was removed. It is regenerated
+     * from the original by scripts/build-logo-assets.mjs on every build, and
+     * the original itself is never modified.
      */
-    width: 846, // intrinsic px — used to reserve space and prevent layout shift
-    height: 596,
+    src: '/vnr-logo-trim.png',
+    /**
+     * Intrinsic box of the delivered display asset: 1495 x 670 (aspect 2.2313).
+     *
+     * Declared so the browser reserves the logo's box before the bitmap
+     * decodes. These must stay in step with the `--logo-h` ratio in
+     * src/styles/index.css; `npm run check:logo` fails the build if either
+     * drifts from the file on disk.
+     */
+    width: 1495, // intrinsic px — reserves space and prevents layout shift
+    height: 670,
 
     /**
      * 'light' = the artwork has a WHITE background, verified by sampling the

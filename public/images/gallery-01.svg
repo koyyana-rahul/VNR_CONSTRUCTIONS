@@ -1,19 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" fill="none" role="img"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0" stop-color="#102A3D"/><stop offset="1" stop-color="#071727"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" fill="none" role="img"><defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#020812"/><stop offset="1" stop-color="#04101C"/>
   </linearGradient>
-  <radialGradient id="vg" cx="50%" cy="42%" r="78%">
-    <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
-    <stop offset="100%" stop-color="#000000" stop-opacity="0.5"/>
-  </radialGradient><filter id="interior-bloom" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="7" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter></defs><rect width="1200" height="900" fill="url(#g)"/>
-  <rect width="1200" height="900" fill="url(#vg)"/><g stroke="#D9AD45" stroke-width="1.4" fill="none" opacity="0.2"><line x1="405.04" y1="337.96" x2="-300" y2="-180"/><line x1="765.04" y1="337.96" x2="1500" y2="-180"/><line x1="405.04" y1="643.96" x2="-300" y2="1080"/><line x1="765.04" y1="643.96" x2="1500" y2="1080"/></g><rect x="405.04" y="337.96" width="360" height="306"
-    stroke="#FFE3A0" stroke-width="2.2" fill="none" opacity="0.4"/><g stroke="#D9AD45" stroke-width="1" fill="none" opacity="0.12"><line x1="-194.96" y1="990" x2="-194.96" y2="643.96"/><line x1="-38.96" y1="990" x2="-38.96" y2="643.96"/><line x1="117.04" y1="990" x2="117.04" y2="643.96"/><line x1="273.04" y1="990" x2="273.04" y2="643.96"/><line x1="429.04" y1="990" x2="429.04" y2="643.96"/><line x1="585.04" y1="990" x2="585.04" y2="643.96"/><line x1="741.04" y1="990" x2="741.04" y2="643.96"/><line x1="897.04" y1="990" x2="897.04" y2="643.96"/><line x1="1053.04" y1="990" x2="1053.04" y2="643.96"/><line x1="1209.04" y1="990" x2="1209.04" y2="643.96"/><line x1="1365.04" y1="990" x2="1365.04" y2="643.96"/></g><line x1="405.04" y1="356.32" x2="765.04" y2="356.32"
-    stroke="#FFE3A0" stroke-width="3" opacity="0.5"/><line x1="165.04" y1="247.96" x2="405.04" y2="356.32"
-    stroke="#FFE3A0" stroke-width="2" opacity="0.22"/><line x1="1005.04" y1="247.96" x2="765.04" y2="356.32"
-    stroke="#FFE3A0" stroke-width="2" opacity="0.22"/><rect x="502.24" y="399.16" width="165.6" height="153"
-    fill="#FFE3A0" opacity="0.12" stroke="#FFE3A0" stroke-width="2" stroke-opacity="0.6"/><g stroke="#D9AD45" stroke-width="1.4" fill="none" opacity="0.4"><line x1="585.04" y1="399.16" x2="585.04" y2="552.16"/><line x1="502.24" y1="468.01" x2="667.84" y2="468.01"/></g><path d="M 502.24 552.16 L 667.84 552.16 L 736.24 805.96 L 433.84 805.96 Z"
-    fill="#D9AD45" opacity="0.07"/><g stroke="#D9AD45" stroke-width="1.6" fill="none" opacity="0.34"><rect x="275.44" y="508.96" width="180" height="117" rx="4"/><line x1="275.44" y1="573.31" x2="455.44" y2="573.31"/><line x1="343.84" y1="508.96" x2="343.84" y2="573.31"/><line x1="387.04" y1="508.96" x2="387.04" y2="573.31"/></g><ellipse cx="585.04" cy="697.96" rx="288" ry="49.5"
-    fill="#D9AD45" opacity="0.07"/><ellipse cx="585.04" cy="697.96" rx="288" ry="49.5"
-    stroke="#D9AD45" stroke-width="1.2" fill="none" opacity="0.28"/><g stroke="#D9AD45" stroke-width="1.2" fill="none" opacity="0.2"><line x1="789.04" y1="368.56" x2="765.04" y2="368.56"/><line x1="789.04" y1="368.56" x2="933.78" y2="437.41"/><line x1="789.04" y1="368.56" x2="1102.52" y2="506.26"/><line x1="789.04" y1="368.56" x2="1271.26" y2="575.11"/><line x1="789.04" y1="368.56" x2="1440" y2="643.96"/></g><g filter="url(#interior-bloom)"><circle cx="477.04" cy="380.8" r="5" fill="#FFE3A0" opacity="0.85"/><circle cx="585.04" cy="368.56" r="5" fill="#FFE3A0" opacity="0.85"/><circle cx="693.04" cy="380.8" r="5" fill="#FFE3A0" opacity="0.85"/></g><g stroke="#D9AD45" stroke-width="1" fill="none" opacity="0.3"><line x1="477.04" y1="193.96" x2="477.04" y2="380.8"/><line x1="585.04" y1="193.96" x2="585.04" y2="368.56"/><line x1="693.04" y1="193.96" x2="693.04" y2="380.8"/></g></svg>
+  <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+    <path d="M48 0H0V48" stroke="#2A4A66" stroke-width="1"/>
+  </pattern>
+  <radialGradient id="warm" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#F3C56B" stop-opacity="0.55"/>
+    <stop offset="1" stop-color="#F3C56B" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="1200" height="900" fill="url(#bg)"/>
+<rect width="1200" height="900" fill="url(#grid)" opacity="0.18"/><path d="M0 0L144 108H1080L1200 0" stroke="#DCE9F5" stroke-opacity="0.65" stroke-width="2"/><path d="M0 900L144 792H1080L1200 900" stroke="#DCE9F5" stroke-opacity="0.65" stroke-width="2"/><rect x="144" y="108" width="936" height="684" stroke="#DCE9F5" stroke-opacity="0.72" stroke-width="2"/><line x1="600" y1="0" x2="612" y2="450" stroke="#93A9BC" stroke-opacity="0.36" stroke-width="1.1"/><line x1="600" y1="900" x2="612" y2="450" stroke="#93A9BC" stroke-opacity="0.36" stroke-width="1.1"/><line x1="0" y1="450" x2="612" y2="450" stroke="#93A9BC" stroke-opacity="0.26" stroke-width="1.1"/><line x1="1200" y1="450" x2="612" y2="450" stroke="#93A9BC" stroke-opacity="0.26" stroke-width="1.1"/><path d="M0 162L144 176.4V723.6L0 738" stroke="#D9AD45" stroke-opacity="0.9" stroke-width="2"/><line x1="48" y1="166.8" x2="48" y2="733.2" stroke="#93A9BC" stroke-opacity="0.39" stroke-width="1.2"/><line x1="96" y1="171.6" x2="96" y2="728.4" stroke="#93A9BC" stroke-opacity="0.39" stroke-width="1.2"/><path d="M144 723.6L744 792L360 792Z" stroke="#93A9BC" stroke-opacity="0.21" stroke-width="1.2"/><rect x="462.24" y="258.48" width="299.52" height="232.56" stroke="#DCE9F5" stroke-opacity="0.65" stroke-width="1.7"/><line x1="612" y1="258.48" x2="612" y2="491.04" stroke="#93A9BC" stroke-opacity="0.44" stroke-width="1.2"/><line x1="462.24" y1="374.76" x2="761.76" y2="374.76" stroke="#93A9BC" stroke-opacity="0.44" stroke-width="1.2"/><path d="M181.44 504.72h243.36v116.28h-243.36z" stroke="#DCE9F5" stroke-opacity="0.58" stroke-width="1.7"/><path d="M181.44 504.72l-65.52 -41.04h243.36l-65.52 41.04" stroke="#93A9BC" stroke-opacity="0.47" stroke-width="1.2"/><path d="M724.32 532.08h280.8v88.92h-280.8z" stroke="#DCE9F5" stroke-opacity="0.5" stroke-width="1.7"/><line x1="799.2" y1="532.08" x2="799.2" y2="408.96" stroke="#93A9BC" stroke-opacity="0.42" stroke-width="1.2"/></svg>

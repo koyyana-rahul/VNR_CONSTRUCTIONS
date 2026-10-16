@@ -30,6 +30,7 @@ import NotFoundPage from './pages/NotFoundPage.jsx';
  *   never depends on it.
  */
 const Services = lazy(() => import('./pages/Services.jsx'));
+const ServiceDetail = lazy(() => import('./pages/ServiceDetail.jsx'));
 const About = lazy(() => import('./pages/About.jsx'));
 const ProcessPage = lazy(() => import('./pages/ProcessPage.jsx'));
 const InteriorsPage = lazy(() => import('./pages/InteriorsPage.jsx'));
@@ -60,6 +61,7 @@ export function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/services" element={<Services />} />
+                <Route path="/services/:slug" element={<ServiceDetail />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/process" element={<ProcessPage />} />
                 <Route path="/interiors" element={<InteriorsPage />} />

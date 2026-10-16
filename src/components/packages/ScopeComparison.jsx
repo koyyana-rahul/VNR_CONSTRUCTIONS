@@ -100,7 +100,7 @@ export function ScopeComparison() {
             key={option.id}
             className={cn(
               'rounded-sm border p-5',
-              index === 0 ? 'border-line bg-brand-warm' : 'border-brand-gold/45 bg-brand-gold/6',
+              index === 0 ? 'border-line bg-surface-warm' : 'border-brand-gold/45 bg-brand-gold/6',
             )}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">

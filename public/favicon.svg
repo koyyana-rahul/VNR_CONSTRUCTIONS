@@ -1,5 +1,50 @@
+<!--
+  VNR Constructions — favicon.
+
+  A SIMPLIFIED monogram, deliberately.
+
+  The supplied lockup (public/vnr-logo.png) is 1774 x 887 with the CONSTRUCTIONS
+  wordmark beneath the mark. At 16 x 16 the wordmark is sub-pixel mush and the
+  whole lockup turns grey, so only the VNR monogram and its gold blade are kept
+  here — which is exactly the case the brief anticipates for very small sizes.
+
+  This is the SAME mark, not a redesign: the V chevron with its notch, the N stem
+  and heavy diagonal, the R bowl and splayed leg, and the gold quadrilateral
+  rising behind the N — in the brand's own near-black (#0A0A0A) and champagne
+  gold (#B99A59 -> #D9AD45).
+
+  The previous favicon was a generic "V" over a gold rule, unrelated to the real
+  logotype.
+
+  PROVENANCE: hand-traced from the supplied raster, because no image encoder
+  (sharp / cwebp / ImageMagick) exists in this project to derive an exact pixel
+  crop. For a pixel-exact favicon, export the monogram from the brand's source
+  artwork at 180x180 (apple-touch-icon) and 32x32 / 48x48 and drop them into
+  public/.
+-->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="VNR Constructions">
-  <rect width="64" height="64" fill="#171717" />
-  <path d="M18 20 L32 46 L46 20" stroke="#D0B477" stroke-width="6" fill="none" stroke-linecap="square" />
-  <path d="M18 51 H46" stroke="#B99A59" stroke-width="4" />
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D9AD45"/>
+      <stop offset="1" stop-color="#B0801F"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="7" fill="#FFFFFF"/>
+
+  <g fill="#0A0A0A">
+    <!-- V: top of left arm, inner notch, deep apex, thin rising right arm. -->
+    <path d="M4 28.9 H10.2 L15.8 39 L17.4 28.9 H21.4 L18.6 44 H14.6 Z"/>
+
+    <!-- N: left stem, heavy diagonal, right stem. -->
+    <path d="M21.4 44 V28.9 H24.7 L30.3 37.9 V28.9 H33.7 V44 H30.3 L24.7 35.1 V44 Z"/>
+
+    <!-- R: stem, bowl, splayed leg. -->
+    <path d="M33.7 44 V28.9 H37 V44 Z"/>
+    <path d="M37 28.9 H48.8 A5.5 5.5 0 0 1 48.8 39.9 H37 Z"/>
+    <path d="M43.3 37.9 H48.8 L60 44 H53 Z"/>
+  </g>
+
+  <!-- Gold blade rising behind the N, as in the supplied artwork. -->
+  <path d="M22.5 36.7 L26.4 20 L28.6 21.7 L24.7 38.4 Z" fill="url(#gold)"/>
 </svg>

@@ -29,6 +29,8 @@ export function Section({
     blackBlue: 'bg-black-blue text-text-secondary',
     navyGradient: 'bg-gradient-to-b from-navy-2 via-navy to-navy text-text-secondary',
     ivory: 'bg-ivory text-navy on-light',
+    white: 'bg-white text-navy on-light',
+    mist: 'bg-ivory text-navy on-light',
   };
 
   const spacings = {

@@ -20,7 +20,16 @@ export function TopBar() {
 
   return (
     <div className="bg-black-blue text-text-muted">
-      <div className="mx-auto flex w-full max-w-page flex-col gap-2 px-5 py-2.5 text-[0.6875rem] uppercase tracking-[0.14em] sm:px-7 sm:py-2 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+      {/* `py-2` / `gap-1.5` below `sm`, not `py-2.5` / `gap-2`.
+
+          The strip stacks onto two rows below `lg` (the message cannot share a
+          line with the location and the phone number at any phone width), so
+          its vertical padding is charged twice. At 390px that was 83px of
+          chrome above the header — nearly a fifth of the viewport spent before
+          the first pixel of content. Two points of padding and half a gap
+          brings it back without touching the 44px touch target on the phone
+          link, which is set by its own `min-h-11`. */}
+      <div className="mx-auto flex w-full max-w-page flex-col gap-1.5 px-5 py-2 text-[0.6875rem] uppercase tracking-[0.14em] sm:gap-2 sm:px-7 sm:py-2.5 lg:flex-row lg:items-center lg:justify-between lg:px-10">
         {/* Service message — truncates rather than pushing the layout */}
         <p className="min-w-0 truncate font-medium">
           <span className="text-gold">{message}</span>

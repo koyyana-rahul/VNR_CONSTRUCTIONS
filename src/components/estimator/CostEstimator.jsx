@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { m, useReducedMotion } from 'motion/react';
 import { AlertCircle, RotateCcw, ArrowRight, Info } from 'lucide-react';
 import { Button } from '../common/Button.jsx';
+import { SurfaceCard } from '../common/SurfaceCard.jsx';
 import { DataNotice } from '../common/DataNotice.jsx';
 import { AnimatedNumber } from '../motion/AnimatedNumber.jsx';
 import { cn } from '../../utils/cn.js';
@@ -119,8 +120,11 @@ export function CostEstimator({ className, onEstimateChange }) {
       {/* ==================== INPUTS ==================== */}
       <div className="min-w-0 lg:col-span-7">
         <form onSubmit={(e) => e.preventDefault()} noValidate>
-          {/* ---- 1. Project ---- */}
-          <fieldset className="rounded-sm border border-line bg-brand-white p-5 sm:p-7">
+          {/* ---- 1. Project ----
+              `pad="lg"` because these fieldsets hold the most controls of
+              anything wrapped in a SurfaceCard; the other two use the same
+              padding as every other card on the site. */}
+          <SurfaceCard as="fieldset" pad="lg">
             <legend className="px-2 font-display text-label font-bold uppercase tracking-[0.16em] text-brand-gold-muted">
               1 &middot; Your project
             </legend>
@@ -187,7 +191,7 @@ export function CostEstimator({ className, onEstimateChange }) {
                 <div
                   role="radiogroup"
                   aria-label="Area unit"
-                  className="flex shrink-0 rounded-sm border border-line p-1"
+                  className="flex shrink-0 rounded-sm border border-line bg-brand-white p-1"
                 >
                   {UNITS.map((u) => {
                     const isActive = u.id === unitId;
@@ -198,11 +202,14 @@ export function CostEstimator({ className, onEstimateChange }) {
                         role="radio"
                         aria-checked={isActive}
                         onClick={() => setUnitId(u.id)}
+                        data-active={isActive}
                         className={cn(
-                          'min-h-10 flex-1 rounded-[3px] px-3.5 font-display text-sm font-semibold transition-colors sm:flex-none',
-                          isActive
-                            ? 'bg-brand-black text-brand-white'
-                            : 'text-text hover:bg-brand-mist',
+                          // Was `bg-brand-black text-brand-white` when active —
+                          // a third selection colour on a page that already used
+                          // gold for the finish level. Now it shares one
+                          // language with the filter tabs and the contingency
+                          // presets.
+                          'vnr-selectable min-h-10 flex-1 rounded-[3px] px-3.5 font-display text-sm font-semibold sm:flex-none',
                         )}
                       >
                         {u.short}
@@ -243,11 +250,15 @@ export function CostEstimator({ className, onEstimateChange }) {
                   return (
                     <label
                       key={level.id}
+                      data-active={isActive}
                       className={cn(
-                        'relative flex cursor-pointer flex-col rounded-sm border p-4 transition-colors',
-                        isActive
-                          ? 'border-brand-gold bg-brand-gold/8'
-                          : 'border-line bg-brand-white hover:border-brand-gold/50',
+                        // The third selectable control on this page, and the
+                        // only one that was already gold. It now draws from the
+                        // same rule as the other two — except it keeps a visible
+                        // border while selected, because a whole card is the
+                        // target and a fill alone is a weaker signal at that
+                        // size. `data-active` still does the colour.
+                        'vnr-selectable relative flex cursor-pointer flex-col rounded-sm border p-4',
                       )}
                     >
                       <input
@@ -290,7 +301,11 @@ export function CostEstimator({ className, onEstimateChange }) {
                   <Info className="size-3.5" aria-hidden="true" />
                   What this level includes
                 </summary>
-                <ul className="mt-2 flex flex-col gap-1.5 rounded-sm bg-brand-mist p-4">
+                {/* `on-dark`: this navy card sits inside an ivory section, so it
+                    re-asserts the dark-surface tokens. Without it the section's
+                    light-slate text is inherited into the navy panel and drops
+                    to roughly 1.8:1. */}
+                <ul className="on-dark mt-2 flex flex-col gap-1.5 rounded-sm bg-brand-mist p-4">
                   {activeFinish?.includes.map((inc) => (
                     <li key={inc} className="text-fine text-text">
                       &bull; {inc}
@@ -299,10 +314,10 @@ export function CostEstimator({ className, onEstimateChange }) {
                 </ul>
               </details>
             </fieldset>
-          </fieldset>
+          </SurfaceCard>
 
           {/* ---- 2. Optional additional work ---- */}
-          <fieldset className="mt-6 rounded-sm border border-line bg-brand-white p-5 sm:p-7">
+          <SurfaceCard as="fieldset" pad="lg" className="mt-6">
             <legend className="px-2 font-display text-label font-bold uppercase tracking-[0.16em] text-brand-gold-muted">
               2 &middot; Optional additional work
             </legend>
@@ -359,10 +374,10 @@ export function CostEstimator({ className, onEstimateChange }) {
                 );
               })}
             </ul>
-          </fieldset>
+          </SurfaceCard>
 
           {/* ---- 3. Contingency ---- */}
-          <fieldset className="mt-6 rounded-sm border border-line bg-brand-white p-5 sm:p-7">
+          <SurfaceCard as="fieldset" pad="lg" className="mt-6">
             <legend className="px-2 font-display text-label font-bold uppercase tracking-[0.16em] text-brand-gold-muted">
               3 &middot; Contingency
             </legend>
@@ -380,11 +395,11 @@ export function CostEstimator({ className, onEstimateChange }) {
                     type="button"
                     aria-pressed={isActive}
                     onClick={() => setContingencyPercent(option.value)}
+                    data-active={isActive}
                     className={cn(
-                      'min-h-11 flex-1 rounded-sm border px-4 font-display text-sm font-semibold transition-colors sm:flex-none',
-                      isActive
-                        ? 'border-brand-black bg-brand-black text-brand-white'
-                        : 'border-line text-text hover:border-brand-gold hover:text-brand-gold-muted',
+                      // Same selection language as the unit toggle and the
+                      // filter tabs. Was a near-black pill.
+                      'vnr-selectable min-h-11 flex-1 rounded-sm border px-4 font-display text-sm font-semibold sm:flex-none',
                     )}
                   >
                     {option.label}
@@ -434,7 +449,7 @@ export function CostEstimator({ className, onEstimateChange }) {
                 </p>
               )}
             </div>
-          </fieldset>
+          </SurfaceCard>
         </form>
       </div>
 
@@ -443,10 +458,14 @@ export function CostEstimator({ className, onEstimateChange }) {
         <div className="lg:sticky lg:top-28">
           <m.div
             layout={reduced ? false : 'position'}
-            className="overflow-hidden rounded-sm border border-line bg-brand-warm"
+            className="overflow-hidden"
             aria-live="polite"
           >
-            <div className="border-b border-line bg-brand-deep px-5 py-5 sm:px-6">
+            <SurfaceCard tone="warm" pad="none" className="overflow-hidden border-0">
+            {/* `on-dark`: the estimate header is a deep-navy panel inside an
+                ivory section. Without the reset it inherits the section's
+                light-surface gold and drops to 2.6:1. */}
+            <div className="on-dark border-b border-line bg-brand-deep px-5 py-5 sm:px-6">
               <p className="font-display text-label font-bold uppercase tracking-[0.16em] text-brand-gold-light">
                 Indicative estimate
               </p>
@@ -507,14 +526,15 @@ export function CostEstimator({ className, onEstimateChange }) {
                 <Row label="Estimated total" value={estimate.estimatedTotal} total />
               </dl>
 
-              {/* Mandated disclaimer — verbatim from the brief. */}
-              <p className="mt-5 rounded-sm border border-line bg-brand-white p-3.5 text-fine leading-relaxed text-text-muted">
+              {/* The mandated disclaimer sits on the card it belongs to, so it is a plain
+              tinted panel rather than another bordered card inside a card. */}
+              <p className="mt-5 rounded-sm bg-brand-mist/45 p-3.5 text-fine leading-relaxed text-text-muted">
                 {ESTIMATOR_DISCLAIMER}
               </p>
 
               <div className="mt-5 flex flex-col gap-3">
                 <Button
-                  variant="gold"
+                  variant="goldGradient"
                   size="lg"
                   fullWidth
                   onClick={requestQuotation}
@@ -534,6 +554,7 @@ export function CostEstimator({ className, onEstimateChange }) {
                 </Button>
               </div>
             </div>
+            </SurfaceCard>
           </m.div>
 
           <DataNotice tone="info" compact className="mt-6">

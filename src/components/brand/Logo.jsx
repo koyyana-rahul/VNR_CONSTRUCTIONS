@@ -6,85 +6,116 @@ import { company } from '../../config/company.js';
  * LOGO — renders the supplied artwork, never redraws it
  * ============================================================================
  *
- * Rules enforced here:
+ * THE SIZING CONTRACT, AND THE TRAP IN IT
+ * --------------------------------------
+ * `className` is applied to the WRAPPER `<span>`, not to the `<img>`. The image
+ * carries its own explicit inline width/height style, so a width utility passed
+ * via `className` silently does nothing to the artwork.
  *
- * 1. ASPECT RATIO IS LOCKED — the width is always `auto`, so the image scales
- *    from whichever height applies and can never be stretched or squashed.
+ * That is not theoretical. The header and the mobile drawer were both given
+ * `w-[13rem]` through `className`, and the logo rendered at the 4.5rem default
+ * at every viewport — a ladder that generated CSS correctly and changed
+ * nothing. Size the ARTWORK with the `width` prop (`var(--logo-w)`,
+ * `clamp(...)` or a px number); use `className` only for flex/margin concerns.
  *
- * 2. NO CROPPING — `object-contain`, never `object-cover`.
+ * `width` is the primary axis because a design spec talks about logo width.
+ * `height: auto` then derives the height from the asset's own intrinsic
+ * width/height attributes, so the ratio cannot drift. Pass `width` OR `height`,
+ * never both — giving both hard-codes the ratio in CSS where it would silently
+ * rot the next time the artwork changed.
  *
- * 3. NO RECOLOURING — no CSS filter, no blend mode, no mask.
+ * Other rules, all still enforced here:
  *
- * 4. BACKGROUND — the artwork has a WHITE background, verified by sampling the
- *    rendered corner pixel (rgb(255, 255, 255)). That white is intentional and
- *    belongs to the original design, so it is preserved rather than removed, and
- *    the even margin around the lettering is baked into the asset's own viewBox
- *    (see scripts/build-logo-assets.mjs).
+ * 1. NO CROPPING — `object-contain`, never `object-cover`.
  *
- *    This component therefore renders NO box of its own — no fill, no border,
- *    no shadow, no padding. An earlier version wrapped the image in a bordered,
- *    padded white plate; once the dead whitespace was removed from the asset
- *    that plate was purely decorative chrome, so it is gone. What you see around
- *    the lettering is the logo's own white.
+ * 2. NO RECOLOURING — no CSS filter, no blend mode, no mask.
  *
- *    The monogram is near-black and the header is midnight navy — roughly 1.3:1,
- *    i.e. invisible without a light field. That is a property of the supplied
- *    artwork and cannot be corrected with CSS without recolouring the brand.
+ * 3. BACKGROUND — the artwork is an opaque white field, verified by sampling
+ *    the rendered corner pixel (rgb(254, 254, 254)) and by the PNG colour type
+ *    (2 = RGB, no alpha channel). That white cannot be removed: the source is a
+ *    flattened JPEG, so removing it would mean thresholding the mark itself,
+ *    which is recolouring the brand and is forbidden.
  *
- * 5. SIZING USES INLINE CSS, NOT UTILITY CLASSES.
- *    An earlier version built the class with `h-[${value}]` from a prop. That
- *    is invisible to Tailwind's static scanner, so the utility was never
- *    generated — and the logo silently rendered at its full 320px intrinsic
- *    width, overflowing a 320px header by 76px. Inline styles cannot be purged,
- *    so they cannot fail this way. Any `clamp()` also works directly.
+ *    What CAN be changed is whether it reads as an accident. Rendered raw, the
+ *    file is a hard-edged WHITE RECTANGLE sitting in a midnight-navy header —
+ *    the loudest shape in the chrome, on every page, and the first thing that
+ *    makes the site look unfinished rather than designed.
  *
- * 6. ONE ASSET, ONE COMPONENT. The complete lockup — monogram, CONSTRUCTION and
- *    the BUILDING BETTER TOMORROWS tagline — is used at every size, in the
- *    header, drawer, footer and About panel. There is no second variant, so no
- *    context can drift or crop a band of the artwork.
+ *    So the field is treated as an intentional brand chip: clipped to a rounded
+ *    corner and given a hairline edge plus a soft drop shadow, it reads as a
+ *    deliberate plate holding the mark, and the same treatment applies
+ *    identically in the header, the drawer, the footer and the About plate so
+ *    it is a component decision rather than four separate accidents.
+ *
+ *    scripts/build-logo-assets.mjs also trims the even white margin at build
+ *    time, so the visible padding around the lettering is ~20px of source
+ *    pixels, not a box drawn here.
+ *
+ * 4. ONE ASSET, ONE COMPONENT. The same file and the same ratio are used in
+ *    the header, the drawer, the footer and the About plate. Only the width
+ *    token differs per context.
  */
 /**
- * The tagline rendered INSIDE the supplied logo artwork, read from the image
- * itself: "BUILDING BETTER TOMORROWS" (measured band 3 of the lockup).
+ * Alt text for the logo.
  *
- * Deliberately NOT `company.tagline`, which is the site's editorial slogan
- * ("Building Your Vision Into Reality.") and differs. Alt text has to describe
- * the pixels of this image; a screen-reader user hearing the editorial slogan
- * while looking at a logo stamped with different words is a mismatch, not a
- * nicety. If the brand ever settles on one line, change it in both places.
+ * This used to be `${company.name} — Building Better Tomorrows`, read off the
+ * PREVIOUS artwork, which was a stacked lockup carrying that tagline. The
+ * supplied replacement is a horizontal monogram-and-wordmark lockup with NO
+ * tagline in it, so that string was announcing words a screen-reader user could
+ * not see anywhere in the image — a mismatch, not a nicety.
+ *
+ * An accessible name also has to work inside the header's link, which already
+ * carries `aria-label="VNR Constructions — home"`. A bare, accurate description
+ * of the mark is correct in both places; the tagline is editorial copy that
+ * lives in the footer heading, where it is real text.
  */
-const LOGO_ARTWORK_TAGLINE = 'Building Better Tomorrows';
+const LOGO_ALT = 'VNR Constructions logo';
 
-export function Logo({
-  className,
-  /**
-   * CSS length — the artwork's rendered HEIGHT. A number is px; a string is
-   * used as-is, so `clamp(3.75rem, 2rem + 3vw, 4.75rem)` scales fluidly.
-   *
-   * Always pass the HEIGHT, never the width. The lockup is stacked at 1.419:1,
-   * so driving it by height keeps the aspect locked and the width follows.
-   */
-  height = 'clamp(3.75rem, 2rem + 3vw, 4.75rem)',
-  decorative = false,
-  alt,
-}) {
-  const { src, width, height: intrinsicH } = company.logo;
+/** Fallback for any call site that passes neither axis. */
+const DEFAULT_HEIGHT = '4.5rem';
+
+/**
+ * THE PLATE.
+ *
+ * One `overflow-hidden` + one compound shadow does all of it: the rounded clip
+ * turns the baked-in white field into a chip, the inset hairline gives the
+ * white an edge against navy (which white-on-navy otherwise has none of), and
+ * the drop shadow lifts it off the surface.
+ *
+ * It is written as an explicit `box-shadow` compound rather than `ring-1
+ * ring-inset` because `ring-inset` is not a Tailwind v4 utility — v4 replaced
+ * it with `inset-ring-*`, so the older spelling silently compiles to nothing.
+ * An arbitrary box-shadow is exact and cannot rot on a framework upgrade.
+ *
+ * `plate={false}` opts out, for any future context that needs the raw field.
+ */
+const PLATE_CLASS =
+  'overflow-hidden rounded-[7px] shadow-[inset_0_0_0_1px_rgb(0_0_0/0.12),0_2px_10px_-4px_rgb(0_0_0/0.55)]';
+
+export function Logo(props) {
+  const { className, width, height, decorative = false, alt, plate = true } = props;
+  const { src, width: intrinsicW, height: intrinsicH } = company.logo;
+
+  // Driving by height is the fallback: keep `height` as the default so every
+  // existing call site keeps working unchanged.
+  const box = width
+    ? { width: typeof width === 'number' ? `${width}px` : width, height: 'auto' }
+    : {
+        height: typeof height === 'number' ? `${height}px` : (height ?? DEFAULT_HEIGHT),
+        width: 'auto',
+      };
 
   return (
-    <span className={cn('inline-flex shrink-0 items-center', className)}>
+    <span className={cn('inline-flex shrink-0 items-center', plate && PLATE_CLASS, className)}>
       <img
         src={src}
-        alt={decorative ? '' : (alt ?? `${company.name} — ${LOGO_ARTWORK_TAGLINE}`)}
-        /* The true intrinsic box of the delivered asset. The old 210x56
-            reservation was a 3.75:1 box around 1.419:1 artwork, which shifted
-            the header as soon as the image decoded. */
-        width={width}
+        alt={decorative ? '' : (alt ?? LOGO_ALT)}
+        /* The true intrinsic box of the delivered asset (846x596). The old
+           210x56 reservation was a 3.75:1 box around 1.4195:1 artwork, which
+           shifted the header as soon as the image decoded. */
+        width={intrinsicW}
         height={intrinsicH}
-        style={{
-          height: typeof height === 'number' ? `${height}px` : height,
-          width: 'auto',
-          maxWidth: 'none',
-        }}
+        style={{ ...box, maxWidth: 'none' }}
         decoding="async"
         className={cn(
           'shrink-0 object-contain',

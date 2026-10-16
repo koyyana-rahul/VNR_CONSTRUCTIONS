@@ -33,8 +33,35 @@
       />
     </noscript>
 
+    <!--
+      Favicon: public/favicon.svg is a SIMPLIFIED VNR monogram drawn for small
+      sizes — a 1774x887 lockup is unreadable at 16x16, and browsers will not
+      rasterise the full artwork into a favicon legibly.
+
+      apple-touch-icon points at the supplied vnr-logo.png. iOS ignores SVG for
+      this slot, and it downscales the source itself, so the same asset serves
+      both without a second file to keep in sync. Previously this referenced
+      /vnr-logo.svg, which no longer exists — a dead path in the head.
+    -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/vnr-logo.svg" />
+    <link rel="apple-touch-icon" href="/vnr-logo.png" />
+
+    <!--
+      Hero photograph, preloaded.
+
+      Hero.png is the LCP element and it is a 2.0 MB bitmap. Without this the
+      browser cannot discover it until the JS bundle has parsed, executed and
+      mounted the React tree, which puts a multi-second gap between first paint
+      and the image appearing. `preload` plus `fetchpriority="high"` on the <img>
+      starts the transfer during HTML parsing instead.
+
+      `as="image"` and an explicit `imagesrcset`/`imagesizes` are deliberately
+      absent: the file is served unsized out of /public, so there is only one
+      representation and declaring variants would make the browser fetch more
+      than it needs. See scripts/media-manifest.mjs for the recommendation to
+      transcode it to WebP/AVIF once an encoder is available.
+    -->
+    <link rel="preload" as="image" href="/images/Hero.png" fetchpriority="high" />
 
     <title>VNR Constructions | Home Construction & Premium Interiors</title>
     <meta

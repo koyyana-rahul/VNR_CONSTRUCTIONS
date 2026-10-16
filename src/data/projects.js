@@ -40,8 +40,6 @@ export const PROJECT_STATUSES = [
   { id: 'handed-over', label: 'Handed Over', tone: 'neutral' },
 ];
 
-const IMG = (name) => `/images/${name}.svg`;
-
 export const projects = [
   {
     id: 'p-001',
@@ -58,11 +56,22 @@ export const projects = [
       'This entry exists purely to prove the portfolio, filtering and detail-page system work end to end. It is not a real project.',
       'When you supply real project data, each record should describe the actual challenge, the scope VNR delivered, and anything genuinely notable about the site or the build.',
     ],
-    images: [
-      { src: IMG('project-01'), alt: 'Placeholder architectural elevation' },
-      { src: IMG('project-02'), alt: 'Placeholder structural frame' },
-      { src: IMG('project-03'), alt: 'Placeholder interior space' },
-    ],
+    /**
+     * EMPTY ON PURPOSE. This record has no verified photograph of real VNR work.
+     *
+     * Twenty-one generated "project elevations" used to sit here. They were
+     * not photographs and not buildings, and the grid implied twenty-one
+     * completed projects that do not exist. src/components/common/PhotoPending.jsx
+     * now renders an honest plate in their place.
+     *
+     * TO PUBLISH A REAL PROJECT, add its own photographs here:
+     *   images: [{ src: '/images/projects/independent-home-01-01.jpg',
+ *              alt: '<what is actually shown, for a screen reader>' }],
+     * export the files at 3:2 and no smaller than 1600x1067, then set
+     * verified: true on this record. See scripts/media-manifest.mjs for the
+     * full shot list.
+     */
+    images: [],
     specs: [
       { label: 'Built-up area', value: null },
       { label: 'Floors', value: null },
@@ -87,11 +96,22 @@ export const projects = [
       'Multi-level projects carry different risks from single-storey builds. A real record would describe how slab, stair and wet-zone waterproofing were handled.',
       'Replace this text with the actual project narrative.',
     ],
-    images: [
-      { src: IMG('project-04'), alt: 'Placeholder villa elevation' },
-      { src: IMG('project-05'), alt: 'Placeholder site structure' },
-      { src: IMG('project-06'), alt: 'Placeholder finished facade' },
-    ],
+    /**
+     * EMPTY ON PURPOSE. This record has no verified photograph of real VNR work.
+     *
+     * Twenty-one generated "project elevations" used to sit here. They were
+     * not photographs and not buildings, and the grid implied twenty-one
+     * completed projects that do not exist. src/components/common/PhotoPending.jsx
+     * now renders an honest plate in their place.
+     *
+     * TO PUBLISH A REAL PROJECT, add its own photographs here:
+     *   images: [{ src: '/images/projects/independent-home-01-01.jpg',
+ *              alt: '<what is actually shown, for a screen reader>' }],
+     * export the files at 3:2 and no smaller than 1600x1067, then set
+     * verified: true on this record. See scripts/media-manifest.mjs for the
+     * full shot list.
+     */
+    images: [],
     specs: [
       { label: 'Built-up area', value: null },
       { label: 'Floors', value: null },
@@ -116,11 +136,22 @@ export const projects = [
       'Apartment work is dominated by repetition. A real entry would explain the unit types, the services strategy and how repetition controlled cost.',
       'Replace this text with the actual project narrative.',
     ],
-    images: [
-      { src: IMG('project-07'), alt: 'Placeholder apartment elevation' },
-      { src: IMG('project-08'), alt: 'Placeholder apartment interior' },
-      { src: IMG('project-09'), alt: 'Placeholder common area' },
-    ],
+    /**
+     * EMPTY ON PURPOSE. This record has no verified photograph of real VNR work.
+     *
+     * Twenty-one generated "project elevations" used to sit here. They were
+     * not photographs and not buildings, and the grid implied twenty-one
+     * completed projects that do not exist. src/components/common/PhotoPending.jsx
+     * now renders an honest plate in their place.
+     *
+     * TO PUBLISH A REAL PROJECT, add its own photographs here:
+     *   images: [{ src: '/images/projects/independent-home-01-01.jpg',
+ *              alt: '<what is actually shown, for a screen reader>' }],
+     * export the files at 3:2 and no smaller than 1600x1067, then set
+     * verified: true on this record. See scripts/media-manifest.mjs for the
+     * full shot list.
+     */
+    images: [],
     specs: [
       { label: 'Built-up area', value: null },
       { label: 'Floors', value: null },
@@ -145,11 +176,22 @@ export const projects = [
       'Commercial projects prioritise flexibility and services access. A real entry would describe the floor plate strategy and any phased occupancy.',
       'Replace this text with the actual project narrative.',
     ],
-    images: [
-      { src: IMG('project-10'), alt: 'Placeholder commercial facade' },
-      { src: IMG('project-11'), alt: 'Placeholder office interior' },
-      { src: IMG('project-12'), alt: 'Placeholder showroom interior' },
-    ],
+    /**
+     * EMPTY ON PURPOSE. This record has no verified photograph of real VNR work.
+     *
+     * Twenty-one generated "project elevations" used to sit here. They were
+     * not photographs and not buildings, and the grid implied twenty-one
+     * completed projects that do not exist. src/components/common/PhotoPending.jsx
+     * now renders an honest plate in their place.
+     *
+     * TO PUBLISH A REAL PROJECT, add its own photographs here:
+     *   images: [{ src: '/images/projects/independent-home-01-01.jpg',
+ *              alt: '<what is actually shown, for a screen reader>' }],
+     * export the files at 3:2 and no smaller than 1600x1067, then set
+     * verified: true on this record. See scripts/media-manifest.mjs for the
+     * full shot list.
+     */
+    images: [],
     specs: [
       { label: 'Built-up area', value: null },
       { label: 'Floors', value: null },
@@ -174,10 +216,22 @@ export const projects = [
       'Renovation cost is driven by what is discovered once work starts, so the condition survey matters more than the finish schedule.',
       'Replace this text with the actual project narrative.',
     ],
-    images: [
-      { src: IMG('project-13'), alt: 'Placeholder renovation in progress' },
-      { src: IMG('project-14'), alt: 'Placeholder refurbished room' },
-    ],
+    /**
+     * EMPTY ON PURPOSE. This record has no verified photograph of real VNR work.
+     *
+     * Twenty-one generated "project elevations" used to sit here. They were
+     * not photographs and not buildings, and the grid implied twenty-one
+     * completed projects that do not exist. src/components/common/PhotoPending.jsx
+     * now renders an honest plate in their place.
+     *
+     * TO PUBLISH A REAL PROJECT, add its own photographs here:
+     *   images: [{ src: '/images/projects/independent-home-01-01.jpg',
+ *              alt: '<what is actually shown, for a screen reader>' }],
+     * export the files at 3:2 and no smaller than 1600x1067, then set
+     * verified: true on this record. See scripts/media-manifest.mjs for the
+     * full shot list.
+     */
+    images: [],
     specs: [
       { label: 'Built-up area', value: null },
       { label: 'Floors', value: null },
@@ -202,11 +256,22 @@ export const projects = [
       'Interiors budgets are governed by the finish schedule. A real entry would describe the material palette and how quantities were controlled.',
       'Replace this text with the actual project narrative.',
     ],
-    images: [
-      { src: IMG('project-15'), alt: 'Placeholder interior living space' },
-      { src: IMG('project-16'), alt: 'Placeholder interior kitchen' },
-      { src: IMG('project-17'), alt: 'Placeholder interior bedroom' },
-    ],
+    /**
+     * EMPTY ON PURPOSE. This record has no verified photograph of real VNR work.
+     *
+     * Twenty-one generated "project elevations" used to sit here. They were
+     * not photographs and not buildings, and the grid implied twenty-one
+     * completed projects that do not exist. src/components/common/PhotoPending.jsx
+     * now renders an honest plate in their place.
+     *
+     * TO PUBLISH A REAL PROJECT, add its own photographs here:
+     *   images: [{ src: '/images/projects/independent-home-01-01.jpg',
+ *              alt: '<what is actually shown, for a screen reader>' }],
+     * export the files at 3:2 and no smaller than 1600x1067, then set
+     * verified: true on this record. See scripts/media-manifest.mjs for the
+     * full shot list.
+     */
+    images: [],
     specs: [
       { label: 'Built-up area', value: null },
       { label: 'Floors', value: null },
@@ -231,10 +296,22 @@ export const projects = [
       'A real entry would describe the handover process — snag closure, documentation handed to the owner, and warranty periods.',
       'Replace this text with the actual project narrative.',
     ],
-    images: [
-      { src: IMG('project-18'), alt: 'Placeholder home elevation' },
-      { src: IMG('project-19'), alt: 'Placeholder home interior' },
-    ],
+    /**
+     * EMPTY ON PURPOSE. This record has no verified photograph of real VNR work.
+     *
+     * Twenty-one generated "project elevations" used to sit here. They were
+     * not photographs and not buildings, and the grid implied twenty-one
+     * completed projects that do not exist. src/components/common/PhotoPending.jsx
+     * now renders an honest plate in their place.
+     *
+     * TO PUBLISH A REAL PROJECT, add its own photographs here:
+     *   images: [{ src: '/images/projects/independent-home-01-01.jpg',
+ *              alt: '<what is actually shown, for a screen reader>' }],
+     * export the files at 3:2 and no smaller than 1600x1067, then set
+     * verified: true on this record. See scripts/media-manifest.mjs for the
+     * full shot list.
+     */
+    images: [],
     specs: [
       { label: 'Built-up area', value: null },
       { label: 'Floors', value: null },
@@ -259,10 +336,22 @@ export const projects = [
       'Each category needs at least two records for the filter buttons to demonstrate real filtering behaviour.',
       'Replace this text with the actual project narrative.',
     ],
-    images: [
-      { src: IMG('project-20'), alt: 'Placeholder commercial structure' },
-      { src: IMG('project-21'), alt: 'Placeholder commercial interior' },
-    ],
+    /**
+     * EMPTY ON PURPOSE. This record has no verified photograph of real VNR work.
+     *
+     * Twenty-one generated "project elevations" used to sit here. They were
+     * not photographs and not buildings, and the grid implied twenty-one
+     * completed projects that do not exist. src/components/common/PhotoPending.jsx
+     * now renders an honest plate in their place.
+     *
+     * TO PUBLISH A REAL PROJECT, add its own photographs here:
+     *   images: [{ src: '/images/projects/independent-home-01-01.jpg',
+ *              alt: '<what is actually shown, for a screen reader>' }],
+     * export the files at 3:2 and no smaller than 1600x1067, then set
+     * verified: true on this record. See scripts/media-manifest.mjs for the
+     * full shot list.
+     */
+    images: [],
     specs: [
       { label: 'Built-up area', value: null },
       { label: 'Floors', value: null },

@@ -50,6 +50,14 @@ export default async function run(page, ui) {
 
     for (const route of ROUTES) {
       await page.goto(`${base}${route.path}`, { waitUntil: 'load' });
+
+      // Every route is lazy-loaded, so a fixed sleep sometimes measures the
+      // Suspense fallback instead of the page — which reported the project
+      // detail route as having 0 <h1>. Waiting for the heading itself makes the
+      // measurement deterministic instead of racing the chunk load.
+      await page
+        .waitForSelector('h1', { timeout: 5000, state: 'attached' })
+        .catch(() => {});
       await page.waitForTimeout(420);
 
       const r = await page.evaluate(() => {

@@ -5,15 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-images.mjs && node scripts/generate-sitemap.mjs && vite build",
+    "build": "node scripts/build-logo-assets.mjs && node scripts/check-logo-assets.mjs && node scripts/generate-illustrations.mjs && node scripts/generate-sitemap.mjs && vite build",
     "preview": "vite preview --port 5199",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "check:company": "node scripts/check-company-data.mjs",
     "fix:imports": "node scripts/fix-imports.mjs",
-    "images": "node scripts/generate-images.mjs",
-    "logo": "node scripts/build-logo-assets.mjs",
+    "images": "node scripts/generate-illustrations.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "verify": "npm run lint && npm run test && npm run build",
     "verify:glass": "node scripts/verify-glass.mjs",
@@ -21,7 +20,13 @@
     "verify:all": "node scripts/verify-all.mjs",
     "verify:failsafe": "node scripts/verify-failsafe.mjs",
     "audit:console": "node scripts/audit-console.mjs",
-    "verify:glass:visual": "node scripts/verify-glass-visual.mjs"
+    "media": "node scripts/media-manifest.mjs",
+    "verify:glass:visual": "node scripts/verify-glass-visual.mjs",
+    "check:logo": "node scripts/check-logo-assets.mjs",
+    "logo": "node scripts/build-logo-assets.mjs",
+    "qa:mobile": "node scripts/qa-mobile.mjs",
+    "qa:states": "node scripts/qa-states.mjs",
+    "qa:header": "node scripts/qa-header.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

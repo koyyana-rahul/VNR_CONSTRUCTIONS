@@ -3,6 +3,7 @@ import { Header } from './Header.jsx';
 import { Footer } from './Footer.jsx';
 import { ScrollToTop } from './ScrollToTop.jsx';
 import { FloatingWhatsApp } from '../contact/FloatingWhatsApp.jsx';
+import { useChromeHeight } from '../../hooks/useChromeHeight.js';
 
 /**
  * APP SHELL
@@ -22,6 +23,11 @@ import { FloatingWhatsApp } from '../contact/FloatingWhatsApp.jsx';
  * affect page flow or capture focus order within the content.
  */
 export function Layout({ children }) {
+  // Publishes TopBar + Header height as `--chrome-h` so the hero can fill
+  // exactly the space that is left below it. See the hook for why this is
+  // measured rather than hard-coded.
+  useChromeHeight();
+
   return (
     <div className="flex min-h-dvh flex-col bg-navy">
       <a

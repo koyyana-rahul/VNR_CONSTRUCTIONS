@@ -4,7 +4,7 @@ import { Seo } from '../components/common/Seo.jsx';
 import { Container } from '../components/common/Container.jsx';
 import { Section } from '../components/common/Section.jsx';
 import { SectionHeading, Button } from '../components/common/Button.jsx';
-import { Icon } from '../components/common/icons.jsx';
+import { IconBadge } from '../components/common/IconBadge.jsx';
 import { Reveal, Stagger, StaggerItem } from '../components/motion/Reveal.jsx';
 import { SourceCopyPending } from '../components/common/SourceCopyPending.jsx';
 import { services } from '../data/home.js';
@@ -43,12 +43,7 @@ export function Services() {
                     className="absolute inset-x-0 top-0 h-0.5 bg-gold/45"
                   />
                   <div className="flex items-start justify-between gap-4">
-                    <span
-                      aria-hidden="true"
-                      className="grid size-11 shrink-0 place-items-center rounded-full border border-gold/35 text-gold"
-                    >
-                      <Icon name={service.icon} className="size-5" strokeWidth={1.5} />
-                    </span>
+                    <IconBadge name={service.icon} size="lg" interactive />
                     <span className="font-display text-h3 font-bold tabular-nums text-gold/40">
                       {service.number}
                     </span>

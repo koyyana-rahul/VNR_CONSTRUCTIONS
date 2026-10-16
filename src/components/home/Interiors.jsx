@@ -1,7 +1,7 @@
 import { Container } from '../common/Container.jsx';
 import { Section } from '../common/Section.jsx';
 import { SectionHeading, Button } from '../common/Button.jsx';
-import { Icon } from '../common/icons.jsx';
+import { IconBadge } from '../common/IconBadge.jsx';
 import { Reveal, Stagger, StaggerItem } from '../motion/Reveal.jsx';
 import { SourceCopyPending } from '../common/SourceCopyPending.jsx';
 import { interiors } from '../../data/home.js';
@@ -29,7 +29,7 @@ export function Interiors() {
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14 xl:gap-20">
           {/* Copy */}
           <Reveal className="lg:col-span-6">
-            <SectionHeading eyebrow="Interiors" title={interiors.title} as="h2" />
+            <SectionHeading title={interiors.title} as="h2" />
 
             {interiors.description ? (
               <p className="mt-6 text-lead text-text-secondary">{interiors.description}</p>
@@ -39,17 +39,29 @@ export function Interiors() {
               </div>
             )}
 
-            <Stagger className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2" stagger={0.06}>
+            {/* Two columns from 320px, not one.
+
+                The four feature titles are short ("Modular Kitchens", "Living
+                Rooms", "Bedrooms & Wardrobes", "Lighting & Fittings") and the
+                cards are icon-plus-title only, so a single phone column spent
+                ~440px of scroll on four rows that each carried one line of
+                text. Two columns halve that and give the strip the compact,
+                tiled rhythm it has on every other breakpoint. */}
+            <Stagger className="mt-7 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4" stagger={0.06}>
               {interiors.features.map((feature) => (
                 <StaggerItem key={feature.id}>
-                  <div className="glass-card group flex h-full items-start gap-3.5 rounded-sm p-5 transition-[border-color,transform] duration-300 hover:-translate-y-[3px] hover:border-gold-medium motion-reduce:transform-none motion-reduce:hover:translate-y-0">
-                    <span
-                      aria-hidden="true"
-                      className="grid size-10 shrink-0 place-items-center rounded-full border border-gold/40 text-gold transition-colors duration-300 group-hover:border-gold"
-                    >
-                      <Icon name={feature.icon} className="size-[1.15rem]" strokeWidth={1.5} />
-                    </span>
-                    <h3 className="pt-2 font-display text-[1.0625rem] font-bold text-gold-light">
+                  {/* Icon ABOVE the title below `sm`.
+
+                      Two columns of a 390px screen are ~171px. Laying the 40px
+                      badge beside the title left 119px of measure, and "Bedrooms
+                      & Wardrobes" broke to three lines while its neighbour
+                      took two — the row read as three ragged text blocks rather
+                      than four equal cards. Stacking puts the full cell width
+                      back behind the heading. From `sm` the cells are wide
+                      enough for the original side-by-side pairing. */}
+                  <div className="glass-card group flex h-full flex-col items-start gap-2.5 rounded-sm p-4 transition-[border-color,transform] duration-300 hover:-translate-y-[3px] hover:border-gold-medium motion-reduce:transform-none motion-reduce:hover:translate-y-0 sm:flex-row sm:items-start sm:gap-3.5 sm:p-5">
+                    <IconBadge name={feature.icon} size="md" interactive />
+                    <h3 className="font-display text-[0.9375rem] font-bold text-balance text-gold-light sm:pt-2 sm:text-[1.0625rem]">
                       {feature.title}
                     </h3>
                   </div>
@@ -57,7 +69,13 @@ export function Interiors() {
               ))}
             </Stagger>
 
-            <Button to={ROUTES.contact} variant="goldGradient" size="lg" className="mt-9">
+            <Button
+              to={ROUTES.contact}
+              variant="goldGradient"
+              size="lg"
+              fullWidth
+              className="mt-8 sm:mt-9 sm:w-auto"
+            >
               Book a Consultation
             </Button>
           </Reveal>
@@ -76,7 +94,7 @@ export function Interiors() {
               />
             </div>
             <p className="mt-3 text-fine text-text-muted">
-              Development visual — the supplied promotional image replaces this
+              Development visual. The supplied promotional image replaces this
               before launch.
             </p>
           </Reveal>

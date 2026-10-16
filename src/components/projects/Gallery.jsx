@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, X, Expand } from 'lucide-react';
+import { PhotoPending } from '../common/PhotoPending.jsx';
 import { cn } from '../../utils/cn.js';
 
 /**
@@ -93,7 +94,20 @@ export function Gallery({ images, title }) {
     return () => node.removeEventListener('keydown', onKeyDown);
   }, [isOpen]);
 
-  if (!images?.length) return null;
+  if (!images?.length) {
+    // No verified photography yet. Rather than render fabricated elevations or
+    // nothing at all, state the gap once, at full width, in the same plate the
+    // cards use — so the detail page is consistent with the portfolio grid.
+    return (
+      <PhotoPending
+        ratio="16/9"
+        tone="light"
+        label="Photography pending"
+        title="Site photography for this project has not been supplied yet"
+        caption="VNR publishes project photographs once the shoot is approved and the record is verified."
+      />
+    );
+  }
 
   return (
     <>

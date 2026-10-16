@@ -42,7 +42,6 @@ export function Gallery() {
       <Container size="page">
         <Reveal>
           <SectionHeading
-            eyebrow="Gallery"
             title={gallery.title}
             align="center"
           />
@@ -112,7 +111,7 @@ export function Gallery() {
         title={gallery.title}
         description={
           isOpen
-            ? `Image ${index + 1} of ${gallery.items.length} — ${gallery.items[index].alt}`
+            ? `Image ${index + 1} of ${gallery.items.length}: ${gallery.items[index].alt}`
             : undefined
         }
         variant="center"

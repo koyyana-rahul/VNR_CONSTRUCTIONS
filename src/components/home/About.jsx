@@ -29,7 +29,7 @@ export function About() {
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14 xl:gap-20">
           {/* Copy */}
           <Reveal className="lg:col-span-6">
-            <SectionHeading eyebrow="About us" title={about.title} as="h2" />
+            <SectionHeading title={about.title} as="h2" />
 
             {about.introduction ? (
               <div className="mt-6 flex flex-col gap-4 text-lead text-text-secondary">
@@ -64,7 +64,13 @@ export function About() {
               ))}
             </ul>
 
-            <Button to={ROUTES.contact} variant="goldGradient" size="lg" className="mt-9">
+            <Button
+              to={ROUTES.contact}
+              variant="goldGradient"
+              size="lg"
+              fullWidth
+              className="mt-8 sm:mt-9 sm:w-auto"
+            >
               Book a Consultation
             </Button>
           </Reveal>
@@ -85,14 +91,21 @@ export function About() {
                 />
               </div>
 
-              {/* Brand plate at the lower-left corner. It is a real panel (it
-                  carries the tagline and lifts the logo off the artwork), not a
-                  frame drawn around the logo — the logo's own white comes from
-                  the asset. `max-w` stops the panel growing with the column on
-                  wide displays. */}
-              <div className="glass-panel absolute -bottom-5 left-4 max-w-[min(21rem,calc(100%-2rem))] rounded-sm px-4 py-3.5 sm:-bottom-6 sm:left-6 sm:px-5 sm:py-4">
+              {/* The brand plate overlaps the artwork's lower-left corner on `sm` and up.
+                  On a phone it would sit on top of the floor-plan drawing's
+                  own caption area, which is the part of the visual that says
+                  what it is — so below `sm` it drops BELOW the frame and the
+                  two stack. The plate is still the lower of the two, so the
+                  reading order (artwork, then logo, then tagline) is unchanged.
+
+                  10px rather than 9px: `text-[0.5625rem]` was the smallest text
+                  rendered anywhere on the site, found by the mobile audit at 9px
+                  on a 390px screen. Uppercase with 0.12em tracking needs a
+                  little more than 13px to stay legible, and one step up clears
+                  it without altering the plate's proportions. */}
+              <div className="glass-panel relative mt-5 max-w-[min(21rem,calc(100%-2rem))] rounded-sm px-4 py-3.5 sm:absolute sm:-bottom-6 sm:left-6 sm:mt-0 sm:px-5 sm:py-4">
                 <Logo height={68} decorative />
-                <p className="mt-2 text-[0.5625rem] uppercase leading-relaxed tracking-[0.12em] text-text-muted sm:text-[0.625rem] sm:tracking-[0.14em]">
+                <p className="mt-2 text-[0.625rem] uppercase leading-relaxed tracking-[0.12em] text-text-muted sm:tracking-[0.14em]">
                   {about.tagline}
                 </p>
               </div>

@@ -18,10 +18,19 @@ export function DataNotice({
   const isWarning = tone === 'warning';
   const Icon = isWarning ? AlertTriangle : Info;
 
+  /* The surface is NOT set here. It comes from `.vnr-notice`, which reads the
+     `--notice-surface` / `--notice-border` tokens — and those are re-pointed by
+     `.on-light`, so the same component is correct on the ivory sections of
+     Packages, Projects, Quality and the estimator AND on the dark homepage
+     sections, with no prop and no per-call-site decision.
+
+     It used to be a literal `bg-white/[0.03]` with `border-gold/25`, which over
+     an ivory ground is indistinguishable from the page: the notices rendered as
+     a faint gold hairline floating on nothing. */
   const tones = {
-    info: 'border-gold/25 bg-white/[0.03] text-text-secondary',
-    warning: 'border-gold/45 bg-gold/[0.07] text-text-secondary',
-    dark: 'border-gold/25 bg-white/[0.03] text-text-secondary',
+    info: 'text-text-secondary',
+    warning: 'text-text-secondary',
+    dark: 'text-text-secondary',
   };
 
   const iconTones = {
@@ -33,7 +42,7 @@ export function DataNotice({
   return (
     <div
       className={cn(
-        'flex items-start gap-3 rounded-sm border',
+        'vnr-notice flex items-start gap-3 rounded-sm border',
         compact ? 'px-3.5 py-3' : 'px-4 py-4 sm:px-5',
         tones[tone],
         className,
@@ -45,7 +54,15 @@ export function DataNotice({
         strokeWidth={2}
       />
       <div className="min-w-0 flex-1 text-fine leading-relaxed">
-        {title && <p className="font-sans font-semibold text-ivory">{title}</p>}
+        {/* `data-notice__title` rather than a bare `text-ivory`: this notice is
+            used on dark sections AND on the ivory sections of Quality, Packages
+            and the estimator, where fixed ivory renders at 1.07:1 on white —
+            an invisible title. The rule lives in @layer utilities so it can
+            out-specify a same-layer colour utility, and it follows whichever
+            surface the section is on. */}
+        {title && (
+          <p className="data-notice__title font-sans font-semibold">{title}</p>
+        )}
         <div className={cn(title && 'mt-1')}>{children}</div>
       </div>
     </div>

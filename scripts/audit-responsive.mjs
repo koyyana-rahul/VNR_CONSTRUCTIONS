@@ -62,6 +62,23 @@ export default async function run(page, ui) {
     for (const route of ROUTES) {
       await page.goto(`${base}${route.path}`, { waitUntil: 'load' });
 
+      // Wait for the ROUTE to render, not just for a fixed number of
+      // milliseconds.
+      //
+      // This sweep makes 195 sequential navigations, and a single fixed 650ms
+      // settle is a race: on a cold production preview one of them reported
+      // `expected exactly 1 <h1>, found 0` on a page that reliably has one at
+      // every width (verified directly at 320/360/375/390). A gate that fails
+      // intermittently is worse than no gate, because the next person stops
+      // reading it.
+      //
+      // The `<h1>` is the right thing to wait on: the h1-count check below
+      // requires exactly one on every route, so if it never arrives that is a
+      // genuine failure and the timeout surfaces it as `found 0` anyway.
+      await page
+        .waitForSelector('h1', { timeout: 5000 })
+        .catch(() => { /* reported as an h1 failure below */ });
+
       // Scroll-reveal animations set opacity:0 on anything not yet in view,
       // so give Motion time to settle before measuring.
       await page.waitForTimeout(650);
@@ -97,6 +114,31 @@ export default async function run(page, ui) {
         const smallTargets = [];
         if (vw < 1024) {
           for (const el of document.querySelectorAll('a, button, input, select, [role="tab"], [role="radio"]')) {
+            // BRING IT INTO VIEW FIRST.
+            //
+            // The effective-hit-area test below works by hit-testing the
+            // element's own centre, and a centre below the fold cannot be hit
+            // at all. Without this, EVERY small link on a long page was
+            // reported as an undersized tap target regardless of how large its
+            // real hit area was — which is why every Projects card title
+            // ("Villa / Duplex — Sample Entry", 23px) was flagged at every
+            // width even though each one carries an `absolute inset-0` overlay
+            // that makes the entire card tappable.
+            //
+            // `scrollIntoView` is synchronous with respect to layout, so the
+            // rect read immediately after it is the post-scroll one.
+            //
+            // `behavior: 'instant'` is REQUIRED, not a nicety: index.css sets
+            // `html { scroll-behavior: smooth }`, so a default scrollIntoView
+            // begins an animation and the rect read on the very next line is
+            // still the PRE-scroll one. The hit test then runs against a
+            // centre thousands of pixels below the viewport, elementFromPoint
+            // returns null, and every link below the fold is reported as
+            // undersized — which is the exact false positive this fixes.
+            if (el.getBoundingClientRect().top > window.innerHeight || el.getBoundingClientRect().bottom < 0) {
+              el.scrollIntoView({ block: 'center', behavior: 'instant' });
+            }
+
             const r = el.getBoundingClientRect();
             if (r.width === 0 || r.height === 0) continue;
             // sr-only elements are visually hidden until focused, at which point
@@ -110,9 +152,22 @@ export default async function run(page, ui) {
             if (wrapLabel && wrapLabel.getBoundingClientRect().height >= 40) continue;
             // EFFECTIVE hit area, not element box. A card link is a 23px <a>
             // inside a card whose whole surface is clickable via a stretched
-            // overlay — that IS a large target. elementFromPoint at the
-            // element centre tells us what a user would actually hit.
+            // `absolute inset-0` overlay — that IS a large target.
+            // elementFromPoint at the element centre tells us what a user
+            // would actually hit.
+            //
+            // The overlay case is ALSO checked structurally, without a hit
+            // test. Hit-testing is viewport-dependent: a card that happens to
+            // sit under the sticky header when the sweep reaches it returns
+            // the header, the link looks undersized, and the audit reports a
+            // target that is verifiably fine. A descendant positioned at
+            // `inset-0` is a declaration of intent that needs no viewport.
             if (r.height < 40) {
+              const stretched = [...el.querySelectorAll('span, i, b, em')].some(
+                (c) => c.getAttribute('aria-hidden') === 'true' && /\binset-0\b/.test(c.className?.toString?.() || ''),
+              );
+              if (stretched) continue;
+
               const cx = r.left + r.width / 2;
               const cy = r.top + r.height / 2;
               if (cx >= 0 && cy >= 0 && cx <= vw && cy <= (window.innerHeight)) {
@@ -165,7 +220,26 @@ export default async function run(page, ui) {
          gold and body-grey as violations.
          Only UI chrome is checked; images keep their natural colours by design.
          Alpha variants of token colours are allowed, since opacity utilities
-         produce rgba() with the same RGB. */
+         produce rgba() with the same RGB.
+
+         THE `.on-light` HALF OF THE PALETTE
+         ------------------------------------
+         index.css re-points the text/line/gold tokens inside `.on-light` so
+         the ivory and white sections pass WCAG AA — on ivory, the dark-theme
+         #F1EEE6 heading ran at 1.08:1. That override block introduces four
+         values that exist NOWHERE ELSE in the stylesheet:
+
+             #12283A  14.1:1   text-primary / text-strong
+             #3E5261   7.6:1   text / text-secondary
+             #5A6D7D   5.0:1   text-muted
+             #7A5A12   5.9:1   the light-surface champagne
+             #DDD6C4           line
+             #C6BCA4           line-strong
+
+         They were missing here, so every light-surface page failed this check
+         at every viewport — 90 failures that had nothing to do with brand
+         discipline, and a PASS:false that meant nothing. They are the documented
+         fix for a real accessibility bug, so they belong in the allowlist. */
         const ALLOWED_RGB = new Set([
           '3, 10, 18',    // navy
           '7, 23, 39',    // navy-2
@@ -185,6 +259,15 @@ export default async function run(page, ui) {
           '21, 35, 49',   // input-text
           '215, 201, 169',// input-border
           '255, 253, 248',// input-background
+          '251, 249, 243',// surface-warm (ivory-section cards)
+          // --- `.on-light` overrides, index.css ---
+          '18, 40, 58',   // #12283A  on-light text-primary / text-strong
+          '62, 82, 97',   // #3E5261  on-light text / text-secondary
+          '90, 109, 125', // #5A6D7D  on-light text-muted
+          '122, 90, 18',  // #7A5A12  on-light champagne
+          '107, 78, 15',  // #6B4E0F  on-light gold-light
+          '221, 214, 196',// #DDD6C4  on-light line
+          '198, 188, 164',// #C6BCA4  on-light line-strong
         ]);
 
         const parseRgb = (value) => {
